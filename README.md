@@ -13,11 +13,11 @@ Create an Android application that uses web services to provide a unique experie
 
 Project Contributers
 =========
-Samuel Hill
-samuhill@gmail.com
-http://www.samjhill.com
+Samuel Hill | 
+samuhill@gmail.com | 
+http://www.samjhill.com 
 
 
-Ben Valentino
-bjv8146@rit.edu
+Ben Valentino |
+bjv8146@rit.edu |
 http://people.rit.edu/bjv8146
