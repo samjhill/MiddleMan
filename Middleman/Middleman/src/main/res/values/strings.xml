@@ -3,5 +3,7 @@
 
     <string name="app_name">Middleman</string>
     <string name="hello_world">Hello world!</string>
+    <string name="location_label">Location:</string>
+    <string name="default_location">Rochester</string>
 
 </resources>
