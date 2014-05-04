@@ -1,28 +1,124 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.team.hv.middleman.middleman.MiddleManMainActivity"
-    android:background="#333">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <!-- Possibly replace with http://www.inter-fuser.com/2010/02/android-coverflow-widget-v2.html -->
-    <!-- Could also just change img src on img click -->
-    <ImageView
-        android:id="@+id/productImageView"
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"/>
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:id="@+id/productImageView"
+                android:layout_span="2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is the item description"
+                android:id="@+id/itemMainDescTextView"
+                android:textSize="25sp"
+                android:layout_span="2"
+                android:layout_gravity="center_horizontal" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cost:"
+                android:id="@+id/itemCostLabelTextView"
+                android:textSize="25sp"
+                android:layout_gravity="right"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="placeholderddddddddd"
+                android:id="@+id/itemCostTextView"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profit:"
+                android:id="@+id/itemProfitLabelTextView"
+                android:textSize="25sp"
+                android:layout_gravity="right"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/itemProfitTextView"
+                android:textSize="25sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance:"
+                android:id="@+id/itemDistanceLabelTextView"
+                android:textSize="25sp"
+                android:layout_gravity="right"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/itemDistanceTextView"
+                android:textSize="25sp" />
+        </TableRow>
 
 
+    </TableLayout>
 
 
+    <Button
+        android:layout_width="@dimen/main_buttons_width"
+        android:layout_height="@dimen/main_buttons_height"
+        android:text="I like it!"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        />
 
-
-
-
-</LinearLayout>
-
+    <Button
+        android:layout_width="@dimen/main_buttons_width"
+        android:layout_height="@dimen/main_buttons_height"
+        android:text="Pass!"
+        android:id="@+id/button2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"/>
+</RelativeLayout>
