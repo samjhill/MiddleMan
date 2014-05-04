@@ -7,4 +7,5 @@
     <string name="default_location">Rochester</string>
     <string name="radius_label">Radius: </string>
     <string name="miles_label"> miles</string>
+    <string name="Feeds">Feeds</string>
 </resources>

@@ -86,6 +86,51 @@
 
         </TableRow>
 
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/feedsLabelTableRow">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Feeds"
+                android:id="@+id/feedsLabelTextView"
+                android:padding="10dp"
+                android:textColor="#8fbfff"
+                android:textSize="30dp"
+                android:textIsSelectable="false" />
+        </TableRow>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/feedSwitch">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/addFeedTableRow"
+                android:weightSum="1">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addFeedEditText"
+                    android:layout_weight="0.71"
+                    android:padding="10dp"
+                    android:text="Add Feed"
+                    android:textColor="@color/white" />
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_action_edit"/>
+
+            </TableRow>
+        </LinearLayout>
+
     </TableLayout>
 
 </LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedLayout"
+    android:background="@color/background">
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:text="Feed Name"
+        android:id="@+id/feedSwitch"
+        android:padding="10dp"
+        android:textSize="25dp"
+        android:background="@color/background"
+        android:textColor="@color/white" />
+</LinearLayout>
