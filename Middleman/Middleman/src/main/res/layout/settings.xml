@@ -16,7 +16,8 @@
             android:id="@+id/locationTableRow"
             android:padding="10dp"
             android:clickable="true"
-            android:showDividers="end">
+            android:showDividers="end"
+            android:background="@drawable/border">
 
             <TextView
                 android:layout_width="wrap_content"
