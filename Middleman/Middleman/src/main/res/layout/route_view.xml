@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/selectedItemsListView">
+
+    </ListView>
+
+    <TableRow>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_marginTop="0dp"
+            android:text="Route Summary"
+            android:textColor="@color/blue"
+            android:textSize="30dp"
+            android:layout_gravity="center"
+            android:layout_span="2"
+            android:ic="@+id/routeSummaryTextView"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="Cost upfront:"
+            android:textColor="@color/white"
+            android:layout_marginRight="5dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:id="@+id/costUpfrontLabelTextView"/>
+        <TextView
+            android:text="$$$ PLACEHOLDER $$$$"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:id="@+id/costUpfrontTextview"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Estimated Cost:"
+            android:textColor="@color/white"
+            android:layout_marginRight="5dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            android:id="@+id/estimatedCostLabelTextView"/>
+        <TextView
+            android:text="$$$ PLACEHOLDER $$$$"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:id="@+id/estimatedCostTextView"/>
+
+    </TableRow>
+
+    <fragment
+        android:id="@+id/routeMap"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_below="@id/race_tv" />
+
+
+</TableLayout>

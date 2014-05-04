@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/background">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:padding="10dp">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -30,7 +30,8 @@
                 android:id="@+id/itemMainDescTextView"
                 android:textSize="25sp"
                 android:layout_span="2"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white" />
 
         </TableRow>
 
@@ -45,14 +46,17 @@
                 android:id="@+id/itemCostLabelTextView"
                 android:textSize="25sp"
                 android:layout_gravity="right"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="placeholderddddddddd"
                 android:id="@+id/itemCostTextView"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp" />
         </TableRow>
 
         <TableRow
@@ -66,14 +70,17 @@
                 android:id="@+id/itemProfitLabelTextView"
                 android:textSize="25sp"
                 android:layout_gravity="right"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/itemProfitTextView"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp" />
         </TableRow>
 
         <TableRow
@@ -87,14 +94,17 @@
                 android:id="@+id/itemDistanceLabelTextView"
                 android:textSize="25sp"
                 android:layout_gravity="right"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:id="@+id/itemDistanceTextView"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp" />
         </TableRow>
 
 
