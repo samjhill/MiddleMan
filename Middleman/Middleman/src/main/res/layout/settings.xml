@@ -15,7 +15,8 @@
             android:layout_height="fill_parent"
             android:id="@+id/locationTableRow"
             android:padding="10dp"
-            android:divider="@drawable/abc_ab_bottom_solid_dark_holo">
+            android:clickable="true"
+            android:showDividers="end">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,5 +40,52 @@
 
         </TableRow>
 
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/radiusTableRow"
+            android:padding="10dp"
+            android:clickable="true"
+            android:showDividers="end" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/radiusLableTextView"
+                android:text="@string/radius_label"
+                android:padding="10dp"
+                android:textColor="@color/white" />
+
+            <SeekBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radiusSeekBar"
+                android:layout_span="6"
+                android:max="100"
+                android:progress="100"
+                android:indeterminate="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/numberMilesTextView"
+                android:text="100"
+                android:textColor="@color/white"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/miles_label"
+                android:id="@+id/milesLabelTextView"
+                android:layout_column="17"
+                android:textColor="@color/white" />
+
+        </TableRow>
+
     </TableLayout>
+
 </LinearLayout>

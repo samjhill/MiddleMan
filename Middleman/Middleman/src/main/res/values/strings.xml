@@ -5,5 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="location_label">Location:</string>
     <string name="default_location">Rochester</string>
-
+    <string name="radius_label">Radius: </string>
+    <string name="miles_label"> miles</string>
 </resources>
