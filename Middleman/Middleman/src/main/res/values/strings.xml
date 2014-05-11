@@ -9,5 +9,7 @@
     <string name="miles_label"> miles</string>
     <string name="Feeds">Feeds</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_feed">feed</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
