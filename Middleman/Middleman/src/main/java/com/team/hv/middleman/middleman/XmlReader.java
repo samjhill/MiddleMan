@@ -1,4 +1,4 @@
-package com.team.hv.middleman.middleman;
+package com.hill.samuel.finalpracticalstudy.app;
 
 import android.util.Xml;
 
@@ -14,11 +14,11 @@ import java.util.List;
  * Created by sjh on 5/16/2014.
  * help from http://developer.android.com/training/basics/network-ops/xml.html
  */
-public class XmlReader {
+public class XmlParser {
     private String url;
     private static final String ns = null;
 
-    public XmlReader(String url){
+    public XmlParser(String url){
         this.url = url;
     }
 
