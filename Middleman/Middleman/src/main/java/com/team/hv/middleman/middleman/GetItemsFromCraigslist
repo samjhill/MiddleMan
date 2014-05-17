@@ -1,187 +1,64 @@
-// ReadItemFromCraigslist
-// searches craigslist and then uses the data to create a new Item
-package com.team.hv.middleman.middleman;
+// Constants & Variables
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+var KEY = "rit483d65-f477-4935-ac6d-35e12287a5b";                                   //API Key
+var VER = "&SERVICE-VERSION=1.0.0"                                                  //Version
+var NAM = "&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b"                  //App Name {basically our key}
+var RES = "&RESPONSE-DATA-FORMAT=XML"                                               //Response Format
+var PAY = "&REST-PAYLOAD"                                                           //Payload
+var sBa = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME="  //Search Base String
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.util.JsonReader;
-import android.util.Log;
 
-class GetItemFromCraigslist extends AsyncTask<Object, Object, String>
-{
-    private static final String TAG = "GetItemFromCraigslist";
+    //Shopping Bit of API
 
-    private String searchQuery;
-    private String itemName;
-    private String description;
-    private String location;
-    private int price;
-    private Array<Item> items;
-
-    @Override
-    protected String doInBackground(Object... params)
-    {
-        // the url for the CraigsList XML feed
-        try
-        {
-            URL webServiceURL = new URL("http://" + location + ".craigslist.org/search/&catAbb=sss&query=" + searchQuery + "&sort=rel&format=rss";
-            System.out.println(webServiceURL);
-            // create a stream Reader from the Craigslist url
-            Reader clReader = new InputStreamReader( webServiceURL.openStream() );
-
-            // create a JsonReader from the Reader
-            JsonReader clJsonReader = new JsonReader(clReader);
-
-            clJsonReader.beginObject(); // read the next Object
-
-            // get the next name
-            String itemName = clJsonReader.nextName();
-
-                clJsonReader.beginObject();
-
-                while (clJsonReader.hasNext()
-                        && !clJsonReader.nextName()
-                        .equals(resources.getString(R.string.item_tag)))
-                clJsonReader.beginArray();
-
-                // read the next 10 items
-                for (int i = 0; i < 10; i++)
-                {
-                    // start reading the next object
-                    clJsonReader.beginObject();
-
-                    // if there is more data
-                    if (clJsonReader.hasNext())
-                    {
-                        //read the next forecast
-                        items[i] = readCraigslistItem(clJsonReader);
-                    } // end if
-                } // end for
-
-            clJsonReader.close(); // close the JsonReader
-
-        } // end try
-        catch (MalformedURLException e)
-        {
-            Log.v(TAG, e.toString());
-        } // end catch
-        catch (NotFoundException e)
-        {
-            Log.v(TAG, e.toString());
-        } // end catch
-        catch (IOException e)
-        {
-            Log.v(TAG, e.toString());
-        } // end catch
-        return null;
-    } // end method doInBackground
-
-    // read a single item
-    private CraigslistItem readCraigslistItem(JsonReader clJsonReader)
-    {
-        // create array to store item information
-        String[] item = new String[4];
-        Bitmap iconBitmap = null; // store the item's image
-
-        try
-        {
-            // while there is a next element in the current object
-            while (clJsonReader.hasNext())
-            {
-                String name = clJsonReader.nextName(); // read next name
-
-                if (name.equals(resources.getString(R.string.date)))
-                {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = null;
-                    try {
-                        date = format.parse(forecastJsonReader.nextString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-                    calendar.setTime(date);
-                    dailyForecast[DailyForecast.DAY_INDEX] =
-                            getDayName(calendar.get(Calendar.DAY_OF_WEEK));
-                } // end if
-                else if (name.equals(resources.getString(
-                        R.string.day_prediction)))
-                {
-                    forecastJsonReader.beginArray();
-                    forecastJsonReader.beginObject();
-                    forecastJsonReader.nextName();
-                    dailyForecast[DailyForecast.PREDICTION_INDEX] =
-                            forecastJsonReader.nextString();
-                    forecastJsonReader.endObject();
-                    forecastJsonReader.endArray();
-                } // end else if
-                else if (name.equals(resources.getString(R.string.high)))
-                {
-                    dailyForecast[DailyForecast.HIGH_TEMP_INDEX] =
-                            forecastJsonReader.nextString();
-                } // end else if
-                else if (name.equals(resources.getString(R.string.low)))
-                {
-                    dailyForecast[DailyForecast.LOW_TEMP_INDEX] =
-                            forecastJsonReader.nextString();
-                } // end else if
-                // if the next item is the icon name
-                else if (name.equals(resources.getString(R.string.day_icon)))
-                {
-                    // read the icon name
-                    forecastJsonReader.beginArray();
-                    forecastJsonReader.beginObject();
-                    forecastJsonReader.nextName();
-                    iconBitmap = ReadForecastTask.getIconBitmap(
-                            forecastJsonReader.nextString(), resources, 0);
-                    forecastJsonReader.endObject();
-                    forecastJsonReader.endArray();
-                } // end else if
-                else // there is an unexpected element
-                {
-                    forecastJsonReader.skipValue(); // skip the next element
-                } // end else
-            } // end while
-            forecastJsonReader.endObject();
-        } // end try
-        catch (IOException e)
-        {
-            Log.e(TAG, e.toString());
-        } // end catch
-
-        return new DailyForecast(dailyForecast, iconBitmap);
-    } // end method readDailyForecast
-
-    private String getDayName(int dayNum) {
-        switch (dayNum) {
-            case Calendar.SUNDAY: return "Sunday";
-            case Calendar.MONDAY: return "Monday";
-            case Calendar.TUESDAY: return "Tuesday";
-            case Calendar.WEDNESDAY: return "Wednesday";
-            case Calendar.THURSDAY: return "Thursday";
-            case Calendar.FRIDAY: return "Friday";
-            case Calendar.SATURDAY: return "Saturday";
+        //Find Popular Items
+        function findEbayProducts(search){
+            
+            
+            
+           $.ajax({
+		type: "GET",
+		url: "assets/php/proxyEbay.php?search=" + search,
+		dataType: "xml",
+		success: parseXml
+	     });
+	     
+	     
         }
-        return "Who knows?";
+	
+	function parseXml(xml) {
+	console.log(xml);
+	
+	var numItems = 0;
+	var price = 0;
+	var maxPrice = 0;
+	var minPrice = 99999999;
+	
+	$(xml).find("item").each(function() {
+	    var condition =  $(this).find("conditionDisplayName").text();
+	    //console.log(condition);
+	    if((condition == 'New') || (condition == 'New other (see details)') || (condition == 'Manufacturer refurbished') || (condition == 'Used')){
+		var currentPrice = $(this).find("currentPrice").text();
+		currentPrice = parseInt(currentPrice);
+		
+		if(currentPrice > maxPrice){
+		    maxPrice = currentPrice;
+		}
+		if(currentPrice < minPrice){
+		    minPrice = currentPrice;
+		}
+		price += currentPrice;
+		numItems++;
+	    }
+	});
+	var avgPrice = price / numItems;
+	
+	//console.log('Highest price: ' + maxPrice);
+	//console.log('Average price: ' + avgPrice);
+	//console.log('Lowest price: ' + minPrice);
+	
+	//console.log(numItems);
+	
+	//$('#content').append('<p>Highest price: '+ maxPrice + '</p>');
+	//$('#content').append('<p>Average price: '+ avgPrice + '</p>');
+	//$('#content').append('<p>Lowest price: '+ minPrice + '</p>');
     }
-
-    // update the UI back on the main thread
-    protected void onPostExecute(String forecastString)
-    {
-        weatherFiveDayForecastListener.onForecastLoaded(forecasts);
-    } // end method onPostExecute
-} // end class ReadFiveDayForecastTask
