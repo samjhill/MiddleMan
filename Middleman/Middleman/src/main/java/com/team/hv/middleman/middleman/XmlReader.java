@@ -1,26 +1,31 @@
-package com.hill.samuel.finalpracticalstudy.app;
+package com.team.hv.middleman.middleman;
 
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Xml;
+import android.webkit.WebView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by sjh on 5/16/2014.
  * help from http://developer.android.com/training/basics/network-ops/xml.html
  */
-public class XmlParser {
-    private String url;
+public class XmlReader {
     private static final String ns = null;
 
-    public XmlParser(String url){
-        this.url = url;
-    }
 
     public List parse(InputStream in) throws XmlPullParserException, IOException {
         try {
@@ -127,4 +132,5 @@ public class XmlParser {
             }
         }
     }
+
 }
