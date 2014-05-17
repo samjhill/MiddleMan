@@ -93,7 +93,7 @@ public class XmlParser {
         return title;
     }
 
-    // Processes link tags in the feed.
+    // Processes price tags in the feed.
     private String readPrice(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "price");
         String price = readText(parser);
