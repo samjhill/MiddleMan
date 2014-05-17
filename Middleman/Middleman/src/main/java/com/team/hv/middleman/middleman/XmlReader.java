@@ -2,8 +2,8 @@ package com.team.hv.middleman.middleman;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.sax.Element;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+import org.w3c.dom.Element;
 
 import java.io.Console;
 import java.io.IOException;
@@ -31,22 +32,28 @@ import javax.xml.parsers.ParserConfigurationException;
 
 class Product
 {
-    public String title;
-    public String price;
+    //public String title;
+    public double price;
 
-    public void Product(String thisPrice){
+    public void Product(double thisPrice){
         price = thisPrice;
     }
 
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
-public class XmlReader{
+public class XmlReader extends AsyncTask<String, Integer, Boolean>{
 
     private static ArrayList<Product> products;
 
+    @Override
+    protected Boolean doInBackground(String...urls) {
+        start();
+        return true;
+    }
+
     //@Override
-    protected static void start(Context theContext) {
+    protected static void start() {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         products = new ArrayList<Product>();
@@ -87,17 +94,27 @@ public class XmlReader{
     private static void parseXML(Document doc) throws XmlPullParserException,IOException
     {
         try {
-            NodeList nodeListOfItems = doc.getElementsByTagName("item");
+            Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());
 
-            for (int i=0;i < nodeListOfItems.getLength(); i++){
-                // cast Node as Element
-               Element thisItem = (Element)nodeListOfItems.item(i);
-               Element priceNode = thisItem.getChild("sellingStatus");
-               Node convertedCost = (Node)priceNode.getChild("convertedCurrentPrice");
-               Product product = new Product();
-               product.price = convertedCost.getNodeValue();
-               products.add(product);
-                Log.v("Product", "Added: "+product.price);
+            // If count of returned items is not 0
+            if (!doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue().equals("0")){
+                NodeList nodeListOfItems = doc.getElementsByTagName("item");
+
+                for (int i=0;i < nodeListOfItems.getLength(); i++) {
+                    // cast Node as Element
+                    Element thisItem = (Element) nodeListOfItems.item(i);
+                    Log.v("thisItem", thisItem.getTagName());
+                    Element priceNode = (Element) thisItem.getElementsByTagName("sellingStatus").item(0);
+                    Log.v("priceNode", priceNode.getTagName());
+                    Node convertedCost = priceNode.getElementsByTagName("convertedCurrentPrice").item(0);
+                    Log.v("convertedCost", convertedCost.getNodeName());
+                    Product product = new Product();
+                    product.price = Double.parseDouble(convertedCost.getChildNodes().item(0).getNodeValue());
+                    products.add(product);
+                    Log.v("Product", "Added: " + product.price);
+                }
+            } else {
+                //TODO let user know nothing was returned
             }
             /*
             name = new TextView[nodeList.getLength()];
@@ -170,11 +187,12 @@ public class XmlReader{
         while(it.hasNext())
         {
             Product currProduct = it.next();
-            content = content + "title :" +  currProduct.title + "n";
-            content = content + "price :" +  currProduct.price + "n";
+            //content = content + "title :" +  currProduct.title + "n";
+            content = content + "price :" +  currProduct.price + "\n";
         }
 
         Log.v("XmlReader",content);
+        Log.v("Total:",products.size()+" Products");
     }
 /*
     @Override

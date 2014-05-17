@@ -31,7 +31,9 @@ public class MiddleManMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle_man_main);
         Log.v("MiddleManMainActivity","Oh fuck, it's happening!");
-        XmlReader.start();
+        String dummyUrl = "www.whatever.com";
+        XmlReader reader = new XmlReader();
+        reader.execute();
         //Intent intent = new Intent(this,XmlReader.class);
         //startActivity(intent);
         stdDev(XmlReader.getProducts());
