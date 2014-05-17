@@ -59,6 +59,9 @@
 
     </TableRow>
 
+
+    <!-- TODO: open up a map object on click, all this fragment displays -->
+    <!-- is your present loc and locations of items you wanna get -->
     <fragment
         android:id="@+id/routeMap"
         android:layout_width="match_parent"
