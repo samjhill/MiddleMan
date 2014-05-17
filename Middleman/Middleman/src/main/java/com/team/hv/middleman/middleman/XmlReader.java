@@ -12,6 +12,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 class Product
@@ -21,6 +22,8 @@ class Product
     public String price;
 
 }
+//"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
+// keywords=ITEMNAMEHERE"
 public class XMLDemo extends Activity {
 
     @Override
@@ -85,10 +88,10 @@ public class XMLDemo extends Activity {
         printProducts(products);
     }
 
-    private void printProducts(ArrayList</product><product> products)
+    private void printProducts(ArrayList<Product> products)
     {
         String content = "";
-        Iterator</product><product> it = products.iterator();
+        Iterator<Product> it = products.iterator();
         while(it.hasNext())
         {
             Product currProduct  = it.next();
