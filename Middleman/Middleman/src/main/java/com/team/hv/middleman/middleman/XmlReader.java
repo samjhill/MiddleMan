@@ -66,12 +66,12 @@ public class XmlReader extends Activity {
                     break;
                 case XmlPullParser.START_TAG:
                     name = parser.getName();
-                    if (name == "item"){
+                    if (name.equals("item")){
                         currentProduct = new Product();
                     } else if (currentProduct != null){
-                        if (name == "title"){
+                        if (name.equals("title")){
                             currentProduct.title = parser.nextText();
-                        } else if (name == "currentPrice"){
+                        } else if (name.equals("currentPrice")){
                             currentProduct.price = parser.nextText();
                         }
                     }
