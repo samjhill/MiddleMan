@@ -66,18 +66,16 @@ public class XMLDemo extends Activity {
                     if (name == "item"){
                         currentProduct = new Product();
                     } else if (currentProduct != null){
-                        if (name == "productname"){
-                            currentProduct.name = parser.nextText();
-                        } else if (name == "productcolor"){
-                            currentProduct.color = parser.nextText();
-                        } else if (name == "productquantity"){
-                            currentProduct.quantity= parser.nextText();
+                        if (name == "title"){
+                            currentProduct.title = parser.nextText();
+                        } else if (name == "currentPrice"){
+                            currentProduct.price = parser.nextText();
                         }
                     }
                     break;
                 case XmlPullParser.END_TAG:
                     name = parser.getName();
-                    if (name.equalsIgnoreCase("product") && currentProduct != null){
+                    if (name.equalsIgnoreCase("item") && currentProduct != null){
                         products.add(currentProduct);
                     }
             }
@@ -94,9 +92,8 @@ public class XMLDemo extends Activity {
         while(it.hasNext())
         {
             Product currProduct  = it.next();
-            content = content + "nnnProduct :" +  currProduct.name + "n";
-            content = content + "Quantity :" +  currProduct.quantity + "n";
-            content = content + "Color :" +  currProduct.color + "n";
+            content = content + "title :" +  currProduct.title + "n";
+            content = content + "price :" +  currProduct.price + "n";
 
         }
 
