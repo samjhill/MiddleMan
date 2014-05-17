@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -97,11 +98,9 @@ public class XmlReader extends Activity {
             Product currProduct = it.next();
             content = content + "title :" +  currProduct.title + "n";
             content = content + "price :" +  currProduct.price + "n";
-
         }
 
-        TextView display = (TextView)findViewById(R.id.info);
-        display.setText(content);
+        System.out.println(content);
     }
 
     @Override
