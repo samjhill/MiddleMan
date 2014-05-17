@@ -1,7 +1,9 @@
 package com.team.hv.middleman.middleman;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 
@@ -25,19 +27,20 @@ class Product
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
-public class XmlReader extends Activity {
+public class XmlReader{
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    //@Override
+    protected static void start(Context theContext) {
+        //super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
 
         XmlPullParserFactory pullParserFactory;
+        Log.v("Stuff","Right before try/catch");
         try {
             pullParserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = pullParserFactory.newPullParser();
 
-            InputStream in_s = getApplicationContext().getAssets().open("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
+            InputStream in_s = theContext.getAssets().open("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in_s, null);
 
@@ -46,6 +49,7 @@ public class XmlReader extends Activity {
         } catch (XmlPullParserException e) {
 
             e.printStackTrace();
+            Log.v("XmlParser","try/catch fucked up");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -53,7 +57,7 @@ public class XmlReader extends Activity {
 
     }
 
-    private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
+    private static void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
         ArrayList<Product> products = null;
         int eventType = parser.getEventType();
@@ -89,7 +93,7 @@ public class XmlReader extends Activity {
         printProducts(products);
     }
 
-    private void printProducts(ArrayList<Product> products)
+    private static void printProducts(ArrayList<Product> products)
     {
         String content = "";
         Iterator<Product> it = products.iterator();
@@ -100,14 +104,14 @@ public class XmlReader extends Activity {
             content = content + "price :" +  currProduct.price + "n";
         }
 
-        System.out.println(content);
+        Log.v("XmlReader",content);
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.feed, menu);
         return true;
     }
-
+*/
 }
