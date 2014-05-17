@@ -26,7 +26,8 @@ public class MiddleManMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle_man_main);
 
-        }
+        XmlReader xr = new XmlReader();
+    }
 
 
 }
