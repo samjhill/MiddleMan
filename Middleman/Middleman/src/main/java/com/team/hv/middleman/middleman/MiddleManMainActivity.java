@@ -11,12 +11,13 @@ import android.os.Build;
 
 public class MiddleManMainActivity extends Activity {
 
+    var priceList = new Array();
+    private boolean clComplete = false;
+    private boolean ebayComplete = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle_man_main);
     }
-
-
-
 }
