@@ -1,5 +1,19 @@
 package com.team.hv.middleman.middleman;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+
 class Product
 {
 
@@ -19,7 +33,7 @@ public class XMLDemo extends Activity {
             pullParserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = pullParserFactory.newPullParser();
 
-            InputStream in_s = getApplicationContext().getAssets().open("temp.xml");
+            InputStream in_s = getApplicationContext().getAssets().open("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in_s, null);
 
@@ -37,7 +51,7 @@ public class XMLDemo extends Activity {
 
     private void parseXML(XmlPullParser parser) throws XmlPullParserException,IOException
     {
-        ArrayList<product> products = null;
+        ArrayList<Product> products = null;
         int eventType = parser.getEventType();
         Product currentProduct = null;
 
@@ -49,7 +63,7 @@ public class XMLDemo extends Activity {
                     break;
                 case XmlPullParser.START_TAG:
                     name = parser.getName();
-                    if (name == "product"){
+                    if (name == "item"){
                         currentProduct = new Product();
                     } else if (currentProduct != null){
                         if (name == "productname"){
