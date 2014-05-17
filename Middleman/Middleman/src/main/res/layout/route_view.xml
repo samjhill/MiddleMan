@@ -24,7 +24,7 @@
             android:textSize="30dp"
             android:layout_gravity="center"
             android:layout_span="2"
-            android:ic="@+id/routeSummaryTextView"/>
+            android:id="@+id/routeSummaryTextView"/>
     </TableRow>
 
     <TableRow>
@@ -62,6 +62,7 @@
 
     <!-- TODO: open up a map object on click, all this fragment displays -->
     <!-- is your present loc and locations of items you wanna get -->
+    <!--
     <fragment
         android:id="@+id/routeMap"
         android:layout_width="match_parent"
@@ -70,6 +71,7 @@
         android:layout_marginBottom="20sp"
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_below="@id/race_tv" />
+    -->
 
 
 </TableLayout>
