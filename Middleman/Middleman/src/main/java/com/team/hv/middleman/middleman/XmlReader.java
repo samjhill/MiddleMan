@@ -193,7 +193,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         }
 
         Log.v("XmlReader",content);
-        Log.v("Total:",products.size()+" Products");
+        Log.v("Total:", products.size() + " Products");
     }
 
     public static ArrayList<Product> getProducts() {
@@ -207,4 +207,98 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         return true;
     }
 */
+//apply standard deviation to arrayList<Product>
+//filters out products that are not what we're looking for
+    public class StdDevCalculator{
+    public ArrayList<Product> stdDev(ArrayList<Product> products){
+        int numItems = products.size();
+        double price = 0;
+        double maxPrice = 0;
+        double minPrice = 99999999;
+
+        for(int i = 0; i < products.size(); i++){
+            double currentPrice = products.get(i).price;
+
+            if(currentPrice > maxPrice){
+                maxPrice = currentPrice;
+            }
+            if(currentPrice < minPrice){
+                minPrice = currentPrice;
+            }
+            price += currentPrice;
+        }
+        //get average
+        double avgPrice = price / numItems;
+
+        Log.v("MiddleManMainActivity","Highest price: " + maxPrice);
+        Log.v("MiddleManMainActivity", "Average price: " + avgPrice);
+        Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
+
+        Log.v("MiddleManMainActivity","Number of items: " + (numItems));
+
+        //get sAvg
+        double sAvgPrice = 0;
+        for(int i = 0; i < products.size(); i++){
+            sAvgPrice += products.get(i).price / 30;
+        }
+
+        //calculate stdDev
+        double stddev = 0;
+        double sum = 0;
+        for(int i = 0; i < 30; i++) {
+            double difference = products.get(i).price - sAvgPrice;
+            sum += difference * difference/30;
+        }
+
+        stddev = Math.pow(sum, .5);
+        Log.v("MiddleManMainActivity","stdDev: " + (stddev));
+
+        int higherThanAvg = 0;
+        int lowerThanAvg = 0;
+
+        for(int i = 0; i < products.size(); i++){
+            if(products.get(i).price > avgPrice){
+                higherThanAvg++;
+            }
+            if(products.get(i).price < avgPrice){
+                lowerThanAvg++;
+            }
+        }
+
+        //drop lower tail of stdDev
+        //anything less than avg-(stddev * 2)
+        double standardizedsum = 0;
+
+        double lowerTail = avgPrice - (lowerThanAvg / (lowerThanAvg + higherThanAvg) * stddev);
+        for( int i = 0; i < products.size(); i++) {
+            //if item's price is below the lower tail
+            if (products.get(i).price < lowerTail) {
+                //remove it
+                products.remove(i);
+            } else { //the number is within boundaries; keep it
+                standardizedsum += products.get(i).price; //add value to standardized sum
+            }
+        }
+
+        double ebayHighPrice = 0; //lowest price of remaining items in products arrayList
+        for(int i = 0; i > products.size(); i++) {
+            if(products.get(i).price < ebayHighPrice) {
+                ebayHighPrice = products.get(i).price;
+            }
+        }
+        double ebagAvgPrice = standardizedsum / products.size();
+        double ebayLowPrice = 99999999; //highest price of remaining items in products arrayList
+        for(int i = 0; i > products.size(); i++) {
+            if(products.get(i).price < ebayLowPrice) {
+                ebayLowPrice = products.get(i).price;
+            }
+        }
+
+        return products;
+
+        }
+
+    }
+
+    }
 }
