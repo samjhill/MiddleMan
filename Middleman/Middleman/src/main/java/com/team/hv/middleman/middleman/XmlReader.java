@@ -24,12 +24,12 @@ class Product
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
-public class XMLReader extends Activity {
+public class XmlReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        //setContentView(R.layout.main);
 
         XmlPullParserFactory pullParserFactory;
         try {
@@ -94,7 +94,7 @@ public class XMLReader extends Activity {
         Iterator<Product> it = products.iterator();
         while(it.hasNext())
         {
-            Product currProduct  = it.next();
+            Product currProduct = it.next();
             content = content + "title :" +  currProduct.title + "n";
             content = content + "price :" +  currProduct.price + "n";
 
