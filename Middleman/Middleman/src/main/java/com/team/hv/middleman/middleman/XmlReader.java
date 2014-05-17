@@ -97,7 +97,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
             Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());
 
             // If count of returned items is not 0
-            if (!doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue().equals("0")){
+            if (!doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue().trim().equals("0")){
                 NodeList nodeListOfItems = doc.getElementsByTagName("item");
 
                 for (int i=0;i < nodeListOfItems.getLength(); i++) {
@@ -193,6 +193,10 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
 
         Log.v("XmlReader",content);
         Log.v("Total:",products.size()+" Products");
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 /*
     @Override
