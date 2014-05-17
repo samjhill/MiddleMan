@@ -32,8 +32,10 @@ public class MiddleManMainActivity extends Activity {
         setContentView(R.layout.activity_middle_man_main);
         Log.v("MiddleManMainActivity","Oh fuck, it's happening!");
         String dummyUrl = "www.whatever.com";
-        XmlReader reader = new XmlReader();
-        reader.execute();
+        //XmlReader reader = new XmlReader();
+        //reader.execute();
+        CraigslistXmlReader cxr = new CraigslistXmlReader();
+        cxr.execute();
         //Intent intent = new Intent(this,XmlReader.class);
         //startActivity(intent);
         //XmlReader xr = new XmlReader();
@@ -45,10 +47,10 @@ public class MiddleManMainActivity extends Activity {
         int numItems = products.size();
         double price = 0;
         double maxPrice = 0;
-        int minPrice = 99999999;
+        double minPrice = 99999999;
 
         for(int i = 0; i < products.size(); i++){
-            int currentPrice = Integer.parseInt(products.get(i).price);
+            double currentPrice = products.get(i).price;
 
             if(currentPrice > maxPrice){
                 maxPrice = currentPrice;
@@ -70,20 +72,19 @@ public class MiddleManMainActivity extends Activity {
         //get sAvg
         double sAvgPrice = 0;
         for(int i = 0; i < products.size(); i++){
-            sAvgPrice += (Double.parseDouble(products.get(i).price) / 30);
+            sAvgPrice += products.get(i).price / 30;
         }
 
         //calculate stdDev
         double stddev = 0;
         double sum = 0;
         for(int i = 0; i < 30; i++) {
-            double difference = Double.parseDouble(products.get(i).price) - sAvgPrice;
+            double difference = products.get(i).price - sAvgPrice;
             sum += difference * difference/30;
         }
 
         stddev = Math.pow(sum, .5);
         Log.v("MiddleManMainActivity","stdDev: " + (stddev));
         return stddev;
-        }
     }
 }

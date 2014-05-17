@@ -59,11 +59,9 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         //setContentView(R.layout.main);
         products = new ArrayList<Product>();
 
-        XmlPullParserFactory pullParserFactory;
+
         Log.v("Stuff","Right before try/catch");
         try {
-            pullParserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = pullParserFactory.newPullParser();
 
             URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -300,5 +298,4 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
 
     }
 
-    }
 }
