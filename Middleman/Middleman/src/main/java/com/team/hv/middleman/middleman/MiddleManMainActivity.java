@@ -30,7 +30,7 @@ public class MiddleManMainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle_man_main);
         Log.v("MiddleManMainActivity","Oh fuck, it's happening!");
-        XmlReader.start(this);
+        XmlReader.start();
         //Intent intent = new Intent(this,XmlReader.class);
         //startActivity(intent);
 

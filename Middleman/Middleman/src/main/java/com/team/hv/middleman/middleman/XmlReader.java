@@ -27,10 +27,12 @@ class Product
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
+
+//http://androiddevelopement.blogspot.in/2011/06/android-xml-parsing-tutorial-using.html
 public class XmlReader{
 
     //@Override
-    protected static void start(Context theContext) {
+    protected static void start() {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
 
@@ -39,6 +41,7 @@ public class XmlReader{
         try {
             pullParserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = pullParserFactory.newPullParser();
+
 
             InputStream in_s = theContext.getAssets().open("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
