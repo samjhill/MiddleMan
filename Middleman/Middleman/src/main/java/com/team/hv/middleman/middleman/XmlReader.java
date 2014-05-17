@@ -21,7 +21,7 @@ class Product
     public String price;
 
 }
-public class XMLDemo extends Activity {
+public class XMLReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
