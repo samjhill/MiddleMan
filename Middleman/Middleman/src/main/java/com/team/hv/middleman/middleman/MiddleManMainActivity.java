@@ -36,20 +36,20 @@ public class MiddleManMainActivity extends Activity {
         reader.execute();
         //Intent intent = new Intent(this,XmlReader.class);
         //startActivity(intent);
-        stdDev(XmlReader.getProducts());
+        //stdDev(XmlReader.getProducts());
         //XmlReader xr = new XmlReader();
     }
 
     //apply standard deviation to arrayList<Product>
     //filters out products that are not what we're looking for
     public Double stdDev(ArrayList<Product> products){
-        int numItems = products.size();
-        double price = 0;
-        double maxPrice = 0;
-        int minPrice = 99999999;
+        double numItems = products.size();
+        double price = 0.0;
+        double maxPrice = 0.0;
+        double minPrice = 99999999.0;
 
         for(int i = 0; i < products.size(); i++){
-            int currentPrice = Integer.parseInt(products.get(i).price);
+            double currentPrice = products.get(i).price;
 
             if(currentPrice > maxPrice){
                 maxPrice = currentPrice;
@@ -71,20 +71,19 @@ public class MiddleManMainActivity extends Activity {
         //get sAvg
         double sAvgPrice = 0;
         for(int i = 0; i < products.size(); i++){
-            sAvgPrice += (Double.parseDouble(products.get(i).price) / 30);
+            sAvgPrice += (products.get(i).price) / 30;
         }
 
         //calculate stdDev
         double stddev = 0;
         double sum = 0;
         for(int i = 0; i < 30; i++) {
-            double difference = Double.parseDouble(products.get(i).price) - sAvgPrice;
+            double difference = products.get(i).price - sAvgPrice;
             sum += difference * difference/30;
         }
 
         stddev = Math.pow(sum, .5);
         Log.v("MiddleManMainActivity","stdDev: " + (stddev));
         return stddev;
-        }
     }
 }

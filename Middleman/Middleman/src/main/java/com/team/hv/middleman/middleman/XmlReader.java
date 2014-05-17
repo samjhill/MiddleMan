@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -195,7 +196,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         Log.v("Total:",products.size()+" Products");
     }
 
-    public ArrayList<Product> getProducts() {
+    public static ArrayList<Product> getProducts() {
         return products;
     }
 /*
