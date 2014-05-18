@@ -34,22 +34,7 @@ import javax.xml.parsers.ParserConfigurationException;
 /**
  * Created by Ben on 5/17/2014.
  */
-class CraigslistItem {
-    public String itemTitle;
-    public String link;
-    public Double price;
-    public String description;
-    public String location;
 
-
-    public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc){
-        itemTitle = theTitle;
-        link = theLink;
-        price = thePrice;
-        description = theDesc;
-        location = theLoc;
-    }
-}
 
 public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
     //http://cityname.craigslist.org/search/?areaID=126&catAbb=sss&query=' +itemtosearch+ '&sort=rel&format=rss
@@ -81,7 +66,7 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
             //parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             //parser.setInput(in_s, null);
 
-            parseXML(doc);
+            parseCraigsXML(doc);
 
         } catch (XmlPullParserException e) {
 
@@ -97,7 +82,7 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
         }
     }
 
-    private void parseXML(Document doc) throws XmlPullParserException,IOException
+    private void parseCraigsXML(Document doc) throws XmlPullParserException,IOException
     {
         try {
             //Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());

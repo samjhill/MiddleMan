@@ -37,6 +37,8 @@ public class MiddleManMainActivity extends Activity {
     public static ArrayList<CraigslistItem> craigsItems;
     public static ArrayList<Product> ebayItems;
 
+    private static ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class MiddleManMainActivity extends Activity {
 
         craigsItems = new ArrayList<CraigslistItem>();
         ebayItems = new ArrayList<Product>();
+        dialog = new ProgressDialog(this);
         String dummyUrl = "www.whatever.com";
         Log.v("Starting:","it's goin");
         searchCraigslistAndEBay("ipod", "Rochester");
@@ -51,12 +54,12 @@ public class MiddleManMainActivity extends Activity {
 
     public void searchCraigslistAndEBay(String itemName, String location) {
         ebayComplete = false;
-        String[] params = {itemName, location};
+        Object[] params = {itemName, location, this.getContext()};
         XmlReader reader = new XmlReader();
         reader.execute(params);
-        clComplete = false;
-        CraigslistXmlReader cxr = new CraigslistXmlReader();
-        cxr.execute(params);
+        //clComplete = false;
+        //CraigslistXmlReader cxr = new CraigslistXmlReader();
+        //cxr.execute(params);
 
         //while (!clComplete && !ebayComplete){
 
@@ -67,6 +70,17 @@ public class MiddleManMainActivity extends Activity {
 
     public Context getContext() {
         return this;
+    }
+
+    public static void displayLoadingDialog() {
+        dialog.setMessage("Loading data from Craigslist and EBay. Sit tight, grab a cold drink.");
+        dialog.show();
+    }
+
+    public static void closeLoadingDialog() {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }
 
