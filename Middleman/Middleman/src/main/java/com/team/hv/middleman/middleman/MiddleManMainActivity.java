@@ -1,6 +1,9 @@
 package com.team.hv.middleman.middleman;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,74 +20,130 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.team.hv.middleman.middleman.XmlReader;
 
 public class MiddleManMainActivity extends Activity {
 
-    private boolean clComplete = false;
-    private boolean ebayComplete = false;
+    public static boolean clComplete = false;
+    public static boolean ebayComplete = false;
+
+    public static Double ebayAvg = 0.0;
+    public static  Double ebayHighPrice = 0.0;
+    public static Double ebayLowPrice = 0.0;
+
+    public static ArrayList<CraigslistItem> craigsItems;
+    public static ArrayList<Product> ebayItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_middle_man_main);
-        Log.v("MiddleManMainActivity","Oh fuck, it's happening!");
+
+        craigsItems = new ArrayList<CraigslistItem>();
+        ebayItems = new ArrayList<Product>();
         String dummyUrl = "www.whatever.com";
-        //XmlReader reader = new XmlReader();
-        //reader.execute();
-        CraigslistXmlReader cxr = new CraigslistXmlReader();
-        cxr.execute();
-        //Intent intent = new Intent(this,XmlReader.class);
-        //startActivity(intent);
-        //XmlReader xr = new XmlReader();
+        Log.v("Starting:","it's goin");
+        searchCraigslistAndEBay("ipod", "Rochester");
     }
 
-    //apply standard deviation to arrayList<Product>
-    //filters out products that are not what we're looking for
-    public Double stdDev(ArrayList<Product> products){
-        int numItems = products.size();
-        double price = 0;
-        double maxPrice = 0;
-        double minPrice = 99999999;
+    public void searchCraigslistAndEBay(String itemName, String location) {
+        ebayComplete = false;
+        String[] params = {itemName, location};
+        XmlReader reader = new XmlReader();
+        reader.execute(params);
+        clComplete = false;
+        CraigslistXmlReader cxr = new CraigslistXmlReader();
+        cxr.execute(params);
 
-        for(int i = 0; i < products.size(); i++){
-            double currentPrice = products.get(i).price;
+        //while (!clComplete && !ebayComplete){
 
-            if(currentPrice > maxPrice){
-                maxPrice = currentPrice;
-            }
-            if(currentPrice < minPrice){
-                minPrice = currentPrice;
-            }
-            price += currentPrice;
-        }
-        //get average
-        double avgPrice = price / numItems;
+        //}
 
-        Log.v("MiddleManMainActivity","Highest price: " + maxPrice);
-        Log.v("MiddleManMainActivity", "Average price: " + avgPrice);
-        Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
+        Log.v("Both are done", "DONE!");
+    }
 
-        Log.v("MiddleManMainActivity","Number of items: " + (numItems));
-
-        //get sAvg
-        double sAvgPrice = 0;
-        for(int i = 0; i < products.size(); i++){
-            sAvgPrice += products.get(i).price / 30;
-        }
-
-        //calculate stdDev
-        double stddev = 0;
-        double sum = 0;
-        for(int i = 0; i < 30; i++) {
-            double difference = products.get(i).price - sAvgPrice;
-            sum += difference * difference/30;
-        }
-
-        stddev = Math.pow(sum, .5);
-        Log.v("MiddleManMainActivity","stdDev: " + (stddev));
-        return stddev;
+    public Context getContext() {
+        return this;
     }
 }
+
+/*class LoadingDialog extends AsyncTask<String, Void, Boolean> {
+
+
+    public LoadingDialog(ListActivity activity) {
+        this.activity = activity;
+        dialog = new ProgressDialog(MiddleManMainActivity.getContext());
+    }
+
+    *//** progress dialog to show user that the backup is processing. *//*
+    private ProgressDialog dialog;
+    *//** application context. *//*
+    private ListActivity activity;
+
+    protected void onPreExecute() {
+        this.dialog.setMessage("Progress start");
+        this.dialog.show();
+    }
+
+    @Override
+    protected void onPostExecute(final Boolean success) {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
+
+        MessageListAdapter adapter = new MessageListAdapter(activity, titles);
+        setListAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+
+        if (success) {
+            Toast.makeText(context, "OK", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected Boolean doInBackground(final String... args) {
+        try{
+            BaseFeedParser parser = new BaseFeedParser();
+            messages = parser.parse();
+            List<Message> titles = new ArrayList<Message>(messages.size());
+            for (Message msg : messages){
+                titles.add(msg);
+            }
+            activity.setMessages(titles);
+            return true;
+        } catch (Exception e)
+        Log.e("tag", "error", e);
+        return false;
+    }
+}
+}
+
+public class Soirees extends ListActivity {
+    private List<Message> messages;
+    private TextView tvSorties;
+    private MyProgressDialog dialog;
+    @Override
+    public void onCreate(Bundle icicle) {
+
+        super.onCreate(icicle);
+
+        setContentView(R.layout.sorties);
+
+        tvSorties=(TextView)findViewById(R.id.TVTitle);
+        tvSorties.setText("Programme des soirées");
+
+        // just call here the task
+        AsyncTask task = new ProgressTask(this).execute();
+    }
+
+    public void setMessages(List<Message> msgs) {
+        messages = msgs;
+    }
+
+}*/

@@ -48,13 +48,13 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
     private static ArrayList<Product> products;
 
     @Override
-    protected Boolean doInBackground(String...urls) {
-        start();
+    protected Boolean doInBackground(String...search) {
+        start(search[0]);
         return true;
     }
 
     //@Override
-    protected static void start() {
+    protected static void start(String itemName) {
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         products = new ArrayList<Product>();
@@ -63,7 +63,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         Log.v("Stuff","Right before try/catch");
         try {
 
-            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords=ipod");
+            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+itemName);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(url.openStream()));
@@ -93,7 +93,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
     private static void parseXML(Document doc) throws XmlPullParserException,IOException
     {
         try {
-            Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());
+            //Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());
 
             // If count of returned items is not 0
             if (!doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue().trim().equals("0")){
@@ -176,11 +176,20 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
             eventType = parser.next();
         }
         */
-        printProducts(products);
+        printProducts();
     }
 
-    private static void printProducts(ArrayList<Product> products)
+    private static void printProducts()
     {
+        products = stdDev(products);
+        if (MiddleManMainActivity.ebayItems.size()>0){
+            MiddleManMainActivity.ebayItems.clear();
+        }
+        MiddleManMainActivity.ebayItems.addAll(products);
+        MiddleManMainActivity.ebayComplete = true;
+
+        Log.v("Count Attribute", ""+products.size());
+
         String content = "";
         Iterator<Product> it = products.iterator();
         while(it.hasNext())
@@ -194,21 +203,7 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
         Log.v("Total:", products.size() + " Products");
     }
 
-    public static ArrayList<Product> getProducts() {
-        return products;
-    }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.feed, menu);
-        return true;
-    }
-*/
-//apply standard deviation to arrayList<Product>
-//filters out products that are not what we're looking for
-    public class StdDevCalculator{
-    public ArrayList<Product> stdDev(ArrayList<Product> products){
+    public static ArrayList<Product> stdDev(ArrayList<Product> products){
         int numItems = products.size();
         double price = 0;
         double maxPrice = 0;
@@ -292,10 +287,27 @@ public class XmlReader extends AsyncTask<String, Integer, Boolean>{
             }
         }
 
+        MiddleManMainActivity.ebayHighPrice = ebayHighPrice;
+        MiddleManMainActivity.ebayAvg = ebagAvgPrice;
+        MiddleManMainActivity.ebayLowPrice = ebayLowPrice;
+
         return products;
 
-        }
-
     }
+
+    public static ArrayList<Product> getProducts() {
+        return products;
+    }
+/*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.feed, menu);
+        return true;
+    }
+*/
+//apply standard deviation to arrayList<Product>
+//filters out products that are not what we're looking for
+
 
 }

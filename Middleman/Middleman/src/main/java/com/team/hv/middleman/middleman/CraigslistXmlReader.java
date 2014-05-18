@@ -38,29 +38,35 @@ class CraigslistItem {
     public String itemTitle;
     public String link;
     public Double price;
+    public String description;
+    public String location;
 
-    public CraigslistItem (String theTitle, String theLink, Double thePrice){
+
+    public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc){
         itemTitle = theTitle;
         link = theLink;
         price = thePrice;
+        description = theDesc;
+        location = theLoc;
     }
 }
 
 public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
     //http://cityname.craigslist.org/search/?areaID=126&catAbb=sss&query=' +itemtosearch+ '&sort=rel&format=rss
     ArrayList<CraigslistItem> items;
+    String cityName;
 
 
     @Override
     protected Boolean doInBackground(String...search){
         //getItemsFromCragislist(search[0], search[1]);
         items = new ArrayList<CraigslistItem>();
-        getItemsFromCragislist("Rochester", "ipod");
+        getItemsFromCragislist(search[1], search[0]);
         return true;
     }
 
     public void getItemsFromCragislist(String city, String itemToSearch) {
-        String cityName = city.toLowerCase();
+        cityName = city.toLowerCase();
         String item = itemToSearch;
 
         try {
@@ -106,6 +112,8 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
                     String title;
                     String link;
                     String price;
+                    String description;
+                    String location;
 
                     // cast Node as Element
                     Element thisItem = (Element) nodeListOfItems.item(i);
@@ -113,10 +121,19 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
                     Element linkNode = (Element)thisItem.getElementsByTagName("link").item(0);
                     link = linkNode.getChildNodes().item(0).getNodeValue();
                     Log.v("linkNode", linkNode.getTagName());
+                    Element descNode = (Element)thisItem.getElementsByTagName("description").item(0);
+                    description = descNode.getChildNodes().item(0).getNodeValue();
                     Element titleNode = (Element) thisItem.getElementsByTagName("title").item(0);
                     Log.v("titleNode", titleNode.getTagName());
 
+
                     String titleText = titleNode.getChildNodes().item(0).getNodeValue();
+                    if (!titleText.contains("(")||!titleText.contains(")")){
+                        location = cityName;
+                    } else {
+                        location = titleText.substring(titleText.lastIndexOf("(") + 1, titleText.lastIndexOf(")")).trim();
+                    }
+
                     //&#x0024; is unicode for $ (dollar sign)
                     if (titleText.contains("&#x0024;")) {
                         title = titleText.substring(0, titleText.indexOf("&#x0024;"));
@@ -126,11 +143,11 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
                         Log.v("Index of last",""+(titleText.length()-1));
                         //Log.v("price:",price);
                         //price = "";
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price)));
+                        items.add(new CraigslistItem(title,link,Double.parseDouble(price), description, location));
                     } else if (titleText.contains("$")) {
                         title = titleText.substring(0, titleText.indexOf("$"));
                         price = titleText.substring(titleText.indexOf("$")+1, titleText.length());
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price)));
+                        items.add(new CraigslistItem(title,link,Double.parseDouble(price),description, location));
                     }
                     Log.v("At number",""+i);
                 }
@@ -147,8 +164,15 @@ public class CraigslistXmlReader extends AsyncTask<String, Integer, Boolean> {
     }
 
     public void printItems() {
+
+        if (MiddleManMainActivity.craigsItems.size()>0){
+            MiddleManMainActivity.craigsItems.clear();
+        }
+        MiddleManMainActivity.craigsItems.addAll(items);
+        MiddleManMainActivity.clComplete = true;
+
         for (int i=0;i<items.size();i++){
-            Log.v("Items Contains: ","title - "+items.get(i).itemTitle+" | link -  "+items.get(i).link +" | price - "+items.get(i).price );
+            Log.v("Items Contains: ","title - "+items.get(i).itemTitle+" | link -  "+items.get(i).link +" | price - "+items.get(i).price+" | desc - "+ items.get(i).description +" | location - "+items.get(i).location);
         }
     }
     /*
