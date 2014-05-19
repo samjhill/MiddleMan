@@ -126,22 +126,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Max Price:"
-            android:id="@+id/textView9"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/placeholder_text"
-            android:id="@+id/itemMaxPriceTextView"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:textSize="20sp" />
     </TableRow>
 
     <TableRow
@@ -172,22 +156,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/item_low_price"
-            android:id="@+id/textView14"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/placeholder_text"
-            android:id="@+id/itemLowPriceTextView"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:textSize="20sp" />
     </TableRow>
 
     <View

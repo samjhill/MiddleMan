@@ -50,8 +50,8 @@ public class MiddleManMainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_middle_man_main);
-        //setContentView(R.layout.results_list_view);
-        setContentView(R.layout.default_empty_view);
+        setContentView(R.layout.results_list_view);
+        //setContentView(R.layout.default_empty_view);
 
         thisContext = getApplicationContext();
         thisLayout = getWindow().getDecorView();
@@ -133,6 +133,28 @@ public class MiddleManMainActivity extends Activity {
         profit.setText(item.expectedProfit + "");
         //add to parent layout
         LinearLayout mainLayout = (LinearLayout) thisLayout.findViewById(android.R.id.content);
+        mainLayout.addView(view);
+    }
+
+    public static void addItemToItemView(CraigslistItem item){
+        View view;
+        LayoutInflater inflater = (LayoutInflater)  thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.item_view, null);
+        //populate the fields
+        TextView itemName = (TextView) view.findViewById(R.id.itemNameTextView);
+        itemName.setText(item.itemTitle);
+        TextView description = (TextView) view.findViewById(R.id.itemDescTextView);
+        description.setText(item.description);
+        TextView location = (TextView) view.findViewById(R.id.itemLocationTextView);
+        location.setText(item.location);
+        TextView price = (TextView) view.findViewById(R.id.itemOfferedPriceTextView);
+        price.setText(item.price + "");
+        TextView avgPrice = (TextView) view.findViewById(R.id.itemAveragePriceTextView);
+        price.setText(item.average + "");
+        TextView profit = (TextView) view.findViewById(R.id.itemExpectedProfitTextView);
+        price.setText(item.expectedProfit + "");
+        //add to parent layout
+        LinearLayout mainLayout = (LinearLayout) thisLayout;
         mainLayout.addView(view);
     }
 }
