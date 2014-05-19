@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -43,7 +44,7 @@ class Product
 
 }
 
-class CraigslistItem {
+class CraigslistItem implements Comparable<CraigslistItem> {
     public String itemTitle;
     public String link;
     public Double price;
@@ -57,6 +58,10 @@ class CraigslistItem {
         price = thePrice;
         description = theDesc;
         location = theLoc;
+    }
+
+    public int compareTo(CraigslistItem other) {
+        return price.compareTo(other.price);
     }
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
@@ -237,29 +242,9 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
     public static ArrayList<Product> stdDev(ArrayList<Product> products){
         int numItems = products.size();
-        double price = 0;
+        double totalPrice = 0;
         double maxPrice = 0;
         double minPrice = 99999999;
-
-        for(int i = 0; i < products.size(); i++){
-            double currentPrice = products.get(i).price;
-
-            if(currentPrice > maxPrice){
-                maxPrice = currentPrice;
-            }
-            if(currentPrice < minPrice){
-                minPrice = currentPrice;
-            }
-            price += currentPrice;
-        }
-        //get average
-        double avgPrice = price / numItems;
-
-        Log.v("MiddleManMainActivity","Highest price: " + maxPrice);
-        Log.v("MiddleManMainActivity", "Average price: " + avgPrice);
-        Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
-
-        Log.v("MiddleManMainActivity","Number of items: " + (numItems));
 
         //get sAvg
         double sAvgPrice = 0;
@@ -277,6 +262,20 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
         stddev = Math.pow(sum, .5);
         Log.v("MiddleManMainActivity","stdDev: " + (stddev));
+
+        for(int i = 0; i < products.size(); i++){
+            double currentPrice = products.get(i).price;
+
+            if(currentPrice > maxPrice){
+                maxPrice = currentPrice;
+            }
+            if(currentPrice < minPrice){
+                minPrice = currentPrice;
+            }
+            totalPrice += currentPrice;
+        }
+        //get average
+        double avgPrice = totalPrice / numItems;
 
         int higherThanAvg = 0;
         int lowerThanAvg = 0;
@@ -305,23 +304,51 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
             }
         }
 
+        avgPrice = standardizedsum / (products.size()*1.0);
+
+        maxPrice = Double.MIN_VALUE;
+        minPrice = Double.MAX_VALUE;
+        for(int i = 0; i < products.size(); i++){
+            double currentPrice = products.get(i).price;
+
+            if(currentPrice > maxPrice){
+                maxPrice = currentPrice;
+            }
+            if(currentPrice < minPrice){
+                minPrice = currentPrice;
+            }
+            totalPrice += currentPrice;
+        }
+
+
+
+
+
+        Log.v("MiddleManMainActivity","Highest price: " + maxPrice);
+        Log.v("MiddleManMainActivity", "Average price: " + avgPrice);
+        Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
+
+        Log.v("MiddleManMainActivity","Number of items: " + (numItems));
+        /*
         double ebayHighPrice = 0; //lowest price of remaining items in products arrayList
         for(int i = 0; i > products.size(); i++) {
-            if(products.get(i).price < ebayHighPrice) {
+            if(products.get(i).price > ebayHighPrice) {
                 ebayHighPrice = products.get(i).price;
             }
         }
-        double ebagAvgPrice = standardizedsum / products.size();
+        double ebagAvgPrice = standardizedsum / products.size()*1.0;
         double ebayLowPrice = 99999999; //highest price of remaining items in products arrayList
         for(int i = 0; i > products.size(); i++) {
             if(products.get(i).price < ebayLowPrice) {
                 ebayLowPrice = products.get(i).price;
             }
         }
+        */
 
-        MiddleManMainActivity.ebayHighPrice = ebayHighPrice;
-        MiddleManMainActivity.ebayAvg = ebagAvgPrice;
-        MiddleManMainActivity.ebayLowPrice = ebayLowPrice;
+        MiddleManMainActivity.ebayHighPrice = maxPrice;
+        MiddleManMainActivity.ebayAvg = avgPrice;
+        MiddleManMainActivity.ebayLowPrice = minPrice;
+        Log.v("","High: "+maxPrice+" - Avg: "+avgPrice+" - Low: "+minPrice +" - Count: "+products.size());
 
         return products;
 
@@ -419,6 +446,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                     }
                     Log.v("At number",""+i);
                 }
+                Collections.sort(items);
             } else {
                 //TODO let user know nothing was returned
             }

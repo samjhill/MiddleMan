@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -42,14 +44,35 @@ public class MiddleManMainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_middle_man_main);
+        //setContentView(R.layout.activity_middle_man_main);
+        setContentView(R.layout.results_list_view);
 
         craigsItems = new ArrayList<CraigslistItem>();
         ebayItems = new ArrayList<Product>();
         dialog = new ProgressDialog(this);
         String dummyUrl = "www.whatever.com";
         Log.v("Starting:","it's goin");
+        findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInputs();
+            }
+        });
+
         searchCraigslistAndEBay("ipod", "Rochester");
+    }
+
+    private void checkInputs(){
+        EditText locationField = (EditText)findViewById(R.id.locationEditText);
+        EditText itemField = (EditText)findViewById(R.id.itemEditText);
+        String location = locationField.getText().toString().trim();
+        String item = itemField.getText().toString().trim();
+
+        if ( (location.equals("") || location == null) && (item.equals("")||item == null)){
+            Toast.makeText(this, "A location and item to search is required", Toast.LENGTH_LONG).show();
+        } else {
+            //
+        }
     }
 
     public void searchCraigslistAndEBay(String itemName, String location) {
