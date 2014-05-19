@@ -54,15 +54,17 @@ class CraigslistItem implements Comparable<CraigslistItem> {
     public String description;
     public String location;
     public Double average;
+    public Double expectedPofit;
 
 
     public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc, Double avgPrice){
         itemTitle = theTitle;
         link = theLink;
-        price = thePrice;
+        price = thePrice*1.0;
         description = theDesc;
         location = theLoc;
-        average = avgPrice;
+        average = avgPrice*1.0;
+        expectedPofit = average - price;
     }
 
     public int compareTo(CraigslistItem other) {
