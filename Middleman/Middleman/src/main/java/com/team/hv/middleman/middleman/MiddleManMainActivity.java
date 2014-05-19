@@ -17,6 +17,7 @@ import android.os.Build;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,6 +119,9 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+        for(int i = 0; i < craigsItems.size(); i++){
+            addItemToItemView(craigsItems.get(i));
+        }
     }
 
     public static void addItemToMain(CraigslistItem item){
@@ -154,7 +158,7 @@ public class MiddleManMainActivity extends Activity {
         TextView profit = (TextView) view.findViewById(R.id.itemExpectedProfitTextView);
         profit.setText(item.expectedProfit + "");
         //add to parent layout
-        LinearLayout mainLayout = (LinearLayout) thisLayout;
+        TableLayout mainLayout = (TableLayout) thisLayout;
         mainLayout.addView(view);
     }
 }
