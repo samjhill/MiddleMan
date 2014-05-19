@@ -84,10 +84,14 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
     @Override
     protected Boolean doInBackground(Object...search) {
         eBayAvgPrice = 0.0;
-        getProductsFromEBay((String)search[0]);
-        items = new ArrayList<CraigslistItem>();
-        getItemsFromCragislist((String)search[1], (String)search[0]);
-        return true;
+        try {
+            getProductsFromEBay(URLEncoder.encode((String) search[0], "UTF-8"));
+            items = new ArrayList<CraigslistItem>();
+            getItemsFromCragislist((String) search[1], URLEncoder.encode((String) search[0], "UTF-8"));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 
     protected void onPreExecute() {
@@ -109,7 +113,6 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
         Log.v("Stuff","Right before try/catch");
         try {
-
             URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+itemName);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

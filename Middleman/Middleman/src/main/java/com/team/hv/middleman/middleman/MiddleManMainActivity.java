@@ -44,17 +44,17 @@ public class MiddleManMainActivity extends Activity {
 
     private static Context thisContext;
 
-    private static View thisLayout;
+    private static ViewGroup thisLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_middle_man_main);
         //setContentView(R.layout.results_list_view);
-        setContentView(R.layout.default_empty_view);
+        setContentView(R.layout.results_list_view);
 
         thisContext = getApplicationContext();
-        thisLayout = getWindow().getDecorView();
+        thisLayout = (ViewGroup)getWindow().getDecorView();
 
         craigsItems = new ArrayList<CraigslistItem>();
         dialog = new ProgressDialog(this);
@@ -92,6 +92,13 @@ public class MiddleManMainActivity extends Activity {
         Object[] params = {itemName, location, this.getContext()};
         XmlReader reader = new XmlReader();
         reader.execute(params);
+        try {
+            reader.get();
+        } catch (Exception w){
+            Toast.makeText(thisContext,  "Problem saerching Craigslist and eBay, try again", Toast.LENGTH_LONG);
+        }
+
+        addCraigsItemsToListView();
         //clComplete = false;
         //CraigslistXmlReader cxr = new CraigslistXmlReader();
         //cxr.execute(params);
@@ -118,6 +125,11 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+        /*
+        for (int i=0;i<craigsItems.size();i++){
+            addItemToMain(craigsItems.get(i));
+        }
+        */
     }
 
     public static void addItemToMain(CraigslistItem item){
@@ -132,9 +144,15 @@ public class MiddleManMainActivity extends Activity {
         TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
         profit.setText(item.expectedProfit + "");
         //add to parent layout
-        LinearLayout mainLayout = (LinearLayout) thisLayout.findViewById(android.R.id.content);
+        LinearLayout mainLayout = (LinearLayout) thisLayout;
         mainLayout.addView(view);
     }
+
+    public void addCraigsItemsToListView() {
+
+    }
+
+
 }
 
 /*class LoadingDialog extends AsyncTask<String, Void, Boolean> {
