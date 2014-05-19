@@ -150,9 +150,9 @@ public class MiddleManMainActivity extends Activity {
         TextView price = (TextView) view.findViewById(R.id.itemOfferedPriceTextView);
         price.setText(item.price + "");
         TextView avgPrice = (TextView) view.findViewById(R.id.itemAveragePriceTextView);
-        price.setText(item.average + "");
+        avgPrice.setText(item.average + "");
         TextView profit = (TextView) view.findViewById(R.id.itemExpectedProfitTextView);
-        price.setText(item.expectedProfit + "");
+        profit.setText(item.expectedProfit + "");
         //add to parent layout
         LinearLayout mainLayout = (LinearLayout) thisLayout;
         mainLayout.addView(view);
