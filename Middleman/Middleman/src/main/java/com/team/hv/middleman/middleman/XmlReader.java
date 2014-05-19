@@ -6,7 +6,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.net.URL;
 
@@ -471,6 +474,16 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
             Log.v("Items Contains: ","title - "+items.get(i).itemTitle+" | link -  "+items.get(i).link +" | price - "+items.get(i).price+" | desc - "+ items.get(i).description +" | location - "+items.get(i).location);
         }
     }
+
+    public void addItemToMain(CraigslistItem item, Context context){
+        View view;
+        LayoutInflater inflater = (LayoutInflater)   context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.activity_middle_man_main, null);
+        TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
+        mainDesc.setText(item.itemTitle);
+        //RelativeLayout item = (RelativeLayout) view.findViewById(R.id.item);
+    }
+
     /*
     function parseXml(xml) {
         //console.log(xml);
