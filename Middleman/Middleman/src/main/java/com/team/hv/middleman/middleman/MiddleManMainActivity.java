@@ -42,12 +42,16 @@ public class MiddleManMainActivity extends Activity {
 
     private static ProgressDialog dialog;
 
+    private static Context thisContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_middle_man_main);
         //setContentView(R.layout.results_list_view);
         setContentView(R.layout.default_empty_view);
+
+        thisContext = getApplicationContext();
 
         craigsItems = new ArrayList<CraigslistItem>();
         dialog = new ProgressDialog(this);
@@ -111,14 +115,12 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-        for(int i = 0; i < craigsItems.size(); i++){
-            addItemToMain(i, this.getContext());
-        }
+
     }
 
-    public static void addItemToMain(CraigslistItem item, Context context){
+    public static void addItemToMain(CraigslistItem item){
         View view;
-        LayoutInflater inflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater)  thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.activity_middle_man_main, null);
         //populate the fields
         TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
