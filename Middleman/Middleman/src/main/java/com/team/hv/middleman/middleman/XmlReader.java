@@ -50,14 +50,16 @@ class CraigslistItem implements Comparable<CraigslistItem> {
     public Double price;
     public String description;
     public String location;
+    public Double average;
 
 
-    public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc){
+    public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc, Double avgPrice){
         itemTitle = theTitle;
         link = theLink;
         price = thePrice;
         description = theDesc;
         location = theLoc;
+        average = avgPrice;
     }
 
     public int compareTo(CraigslistItem other) {
@@ -69,11 +71,13 @@ class CraigslistItem implements Comparable<CraigslistItem> {
 public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
     private static ArrayList<Product> products;
+    private static double eBayAvgPrice;
     ArrayList<CraigslistItem> items;
     String cityName;
 
     @Override
     protected Boolean doInBackground(Object...search) {
+        eBayAvgPrice = 0.0;
         getProductsFromEBay((String)search[0]);
         items = new ArrayList<CraigslistItem>();
         getItemsFromCragislist((String)search[1], (String)search[0]);
@@ -345,11 +349,18 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         }
         */
 
+        eBayAvgPrice = avgPrice;
         MiddleManMainActivity.ebayHighPrice = maxPrice;
         MiddleManMainActivity.ebayAvg = avgPrice;
         MiddleManMainActivity.ebayLowPrice = minPrice;
         Log.v("","High: "+maxPrice+" - Avg: "+avgPrice+" - Low: "+minPrice +" - Count: "+products.size());
 
+
+        for (int r = 0; r < products.size();r++){
+            if (products.get(r).price > eBayAvgPrice){
+                products.remove(r);
+            }
+        }
         return products;
 
     }
@@ -429,6 +440,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                         location = titleText.substring(titleText.lastIndexOf("(") + 1, titleText.lastIndexOf(")")).trim();
                     }
 
+
                     //&#x0024; is unicode for $ (dollar sign)
                     if (titleText.contains("&#x0024;")) {
                         title = titleText.substring(0, titleText.indexOf("&#x0024;"));
@@ -438,11 +450,11 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                         Log.v("Index of last",""+(titleText.length()-1));
                         //Log.v("price:",price);
                         //price = "";
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price), description, location));
+                        items.add(new CraigslistItem(title,link,Double.parseDouble(price), description, location, eBayAvgPrice));
                     } else if (titleText.contains("$")) {
                         title = titleText.substring(0, titleText.indexOf("$"));
                         price = titleText.substring(titleText.indexOf("$")+1, titleText.length());
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price),description, location));
+                        items.add(new CraigslistItem(title,link,Double.parseDouble(price),description, location, eBayAvgPrice));
                     }
                     Log.v("At number",""+i);
                 }
