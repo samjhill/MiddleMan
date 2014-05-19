@@ -55,7 +55,7 @@ class CraigslistItem implements Comparable<CraigslistItem> {
     public String description;
     public String location;
     public Double average;
-    public Double expectedPofit;
+    public Double expectedProfit;
 
 
     public CraigslistItem (String theTitle, String theLink, Double thePrice, String theDesc, String theLoc, Double avgPrice){
@@ -65,7 +65,7 @@ class CraigslistItem implements Comparable<CraigslistItem> {
         description = theDesc;
         location = theLoc;
         average = avgPrice*1.0;
-        expectedPofit = average - price;
+        expectedProfit = average - price;
     }
 
     public int compareTo(CraigslistItem other) {
@@ -488,20 +488,6 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         for (int i=0;i<items.size();i++){
             Log.v("Items Contains: ","title - "+items.get(i).itemTitle+" | link -  "+items.get(i).link +" | price - "+items.get(i).price+" | desc - "+ items.get(i).description +" | location - "+items.get(i).location);
         }
-    }
-
-    public void addItemToMain(CraigslistItem item, Context context){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)   context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.activity_middle_man_main, null);
-        TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
-        mainDesc.setText(item.itemTitle);
-        TextView itemCost = (TextView) view.findViewById(R.id.itemCostTextView);
-        itemCost.setText(item.price + "");
-        TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
-        profit.setText(item.expectedProfit + "");
-
-        //RelativeLayout item = (RelativeLayout) view.findViewById(R.id.item);
     }
 
     /*

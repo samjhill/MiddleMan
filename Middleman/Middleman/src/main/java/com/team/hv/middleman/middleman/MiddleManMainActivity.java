@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -112,7 +113,20 @@ public class MiddleManMainActivity extends Activity {
         }
     }
 
-
+    public void addItemToMain(CraigslistItem item, Context context){
+        View view;
+        LayoutInflater inflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.activity_middle_man_main, null);
+        //populate the fields
+        TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
+        mainDesc.setText(item.itemTitle);
+        TextView itemCost = (TextView) view.findViewById(R.id.itemCostTextView);
+        itemCost.setText(item.price + "");
+        TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
+        profit.setText(item.expectedProfit + "");
+        //add to parent layout
+        
+    }
 }
 
 /*class LoadingDialog extends AsyncTask<String, Void, Boolean> {
