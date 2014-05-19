@@ -44,6 +44,8 @@ public class MiddleManMainActivity extends Activity {
 
     private static Context thisContext;
 
+    private static View thisLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class MiddleManMainActivity extends Activity {
         setContentView(R.layout.default_empty_view);
 
         thisContext = getApplicationContext();
+        thisLayout = getWindow().getDecorView();
 
         craigsItems = new ArrayList<CraigslistItem>();
         dialog = new ProgressDialog(this);
@@ -115,7 +118,6 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-
     }
 
     public static void addItemToMain(CraigslistItem item){
@@ -130,7 +132,7 @@ public class MiddleManMainActivity extends Activity {
         TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
         profit.setText(item.expectedProfit + "");
         //add to parent layout
-        LinearLayout mainLayout = (LinearLayout) getWindow().getDecorView().findViewById(android.R.id.content);
+        LinearLayout mainLayout = (LinearLayout) thisLayout.findViewById(android.R.id.content);
         mainLayout.addView(view);
     }
 }
