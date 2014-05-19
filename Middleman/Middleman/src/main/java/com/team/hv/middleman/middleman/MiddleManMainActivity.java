@@ -38,7 +38,6 @@ public class MiddleManMainActivity extends Activity {
     public static Double ebayLowPrice = 0.0;
 
     public static ArrayList<CraigslistItem> craigsItems;
-    public static ArrayList<Product> ebayItems;
 
     private static ProgressDialog dialog;
 
@@ -49,7 +48,6 @@ public class MiddleManMainActivity extends Activity {
         setContentView(R.layout.results_list_view);
 
         craigsItems = new ArrayList<CraigslistItem>();
-        ebayItems = new ArrayList<Product>();
         dialog = new ProgressDialog(this);
         String dummyUrl = "www.whatever.com";
         Log.v("Starting:","it's goin");

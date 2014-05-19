@@ -229,10 +229,10 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
     private static void printProducts()
     {
         products = stdDev(products);
-        if (MiddleManMainActivity.ebayItems.size()>0){
-            MiddleManMainActivity.ebayItems.clear();
-        }
-        MiddleManMainActivity.ebayItems.addAll(products);
+        //if (MiddleManMainActivity.ebayItems.size()>0){
+        //    MiddleManMainActivity.ebayItems.clear();
+        //}
+        //MiddleManMainActivity.ebayItems.addAll(products);
         MiddleManMainActivity.ebayComplete = true;
 
         Log.v("Count Attribute", ""+products.size());
