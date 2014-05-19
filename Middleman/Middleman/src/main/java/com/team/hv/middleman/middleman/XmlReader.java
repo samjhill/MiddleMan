@@ -87,7 +87,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         try {
             getProductsFromEBay(URLEncoder.encode((String) search[0], "UTF-8"));
             items = new ArrayList<CraigslistItem>();
-            getItemsFromCragislist((String) search[1], URLEncoder.encode((String) search[0], "UTF-8"));
+            getItemsFromCragislist(URLEncoder.encode((String) search[1], "UTF-8"), URLEncoder.encode((String) search[0], "UTF-8"));
             return true;
         } catch (Exception e){
             return false;
