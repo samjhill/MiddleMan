@@ -89,9 +89,9 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
     protected Boolean doInBackground(Object...search) {
         eBayAvgPrice = 0.0;
         try {
-            getProductsFromEBay(URLEncoder.encode((String) search[0], "UTF-8"));
+            getProductsFromEBay((String)search[0]);
             items = new ArrayList<CraigslistItem>();
-            getItemsFromCragislist(URLEncoder.encode((String) search[1], "UTF-8"), URLEncoder.encode((String) search[0], "UTF-8"));
+            getItemsFromCragislist((String) search[1], (String) search[0]);
             return true;
         } catch (Exception e){
             return false;
@@ -118,7 +118,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
         Log.v("Stuff","Right before try/catch");
         try {
-            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+itemName);
+            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+URLEncoder.encode(itemName, "UTF-8"));
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(url.openStream()));
@@ -386,12 +386,12 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
     public void getItemsFromCragislist(String city, String itemToSearch) {
         cityName = city.toLowerCase();
         //replace all white space
-        cityName = cityName.replaceAll("\\s","");
+        //cityName = cityName.replaceAll("\\s","");
         String item = itemToSearch;
 
         try {
             // http://cityname.craigslist.org/search/?areaID=126&catAbb=sss&query=itemtosearch&sort=rel&format=rss
-            URL url = new URL("http://" + cityName + ".craigslist.org/search/?areaID=126&catAbb=sss&query=" + item + "&sort=rel&format=rss");
+            URL url = new URL("http://" + cityName.replaceAll("\\s","") + ".craigslist.org/search/?areaID=126&catAbb=sss&query=" + URLEncoder.encode(item,"UTF-8") + "&sort=rel&format=rss");
             URL shortUrlForWebBrowser = new URL("http://" + cityName + ".craigslist.org/search/?areaID=126&catAbb=sss&query=" + item + "&sort=rel");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

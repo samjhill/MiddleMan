@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,9 @@ public class MiddleManMainActivity extends Activity {
     public static ArrayList<CraigslistItem> craigsItems;
 
     private static ProgressDialog dialog;
+    private static ListView selectedItemsListView;
+    private static ArrayAdapter listViewAdapter;
+
 
     private static Context thisContext;
 
@@ -55,6 +60,8 @@ public class MiddleManMainActivity extends Activity {
 
         thisContext = getApplicationContext();
         thisLayout = getWindow().getDecorView();
+
+        selectedItemsListView = (ListView)findViewById(R.id.selectedItemsListView);
 
         craigsItems = new ArrayList<CraigslistItem>();
         dialog = new ProgressDialog(this);
@@ -118,6 +125,12 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+        addCraigsItemsToListView();
+    }
+
+    private static void addCraigsItemsToListView() {
+        listViewAdapter = new ArrayAdapter<CraigslistItem>(thisContext, android.R.layout.simple_list_item_1, craigsItems);
+        selectedItemsListView.setAdapter(listViewAdapter);
     }
 
     public static void addItemToMain(CraigslistItem item){
