@@ -379,14 +379,14 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
     }
 
-
-
     public static ArrayList<Product> getProducts() {
         return products;
     }
 
     public void getItemsFromCragislist(String city, String itemToSearch) {
         cityName = city.toLowerCase();
+        //replace all white space
+        cityName = cityName.replaceAll("\\s","");
         String item = itemToSearch;
 
         try {
