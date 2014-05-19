@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,8 @@ public class MiddleManMainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_middle_man_main);
-        setContentView(R.layout.results_list_view);
+        //setContentView(R.layout.results_list_view);
+        setContentView(R.layout.default_empty_view);
 
         craigsItems = new ArrayList<CraigslistItem>();
         ebayItems = new ArrayList<Product>();
@@ -111,9 +113,12 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+        for(int i = 0; i < craigsItems.size(); i++){
+            addItemToMain(i, this.getContext());
+        }
     }
 
-    public void addItemToMain(CraigslistItem item, Context context){
+    public static void addItemToMain(CraigslistItem item, Context context){
         View view;
         LayoutInflater inflater = (LayoutInflater)  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.activity_middle_man_main, null);
@@ -125,7 +130,8 @@ public class MiddleManMainActivity extends Activity {
         TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
         profit.setText(item.expectedProfit + "");
         //add to parent layout
-        
+        LinearLayout mainLayout = (LinearLayout) getWindow().getDecorView().findViewById(android.R.id.content);
+        mainLayout.addView(view);
     }
 }
 
