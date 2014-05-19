@@ -16,6 +16,7 @@ import java.net.URL;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
@@ -493,6 +494,11 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         view = inflater.inflate(R.layout.activity_middle_man_main, null);
         TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
         mainDesc.setText(item.itemTitle);
+        TextView itemCost = (TextView) view.findViewById(R.id.itemCostTextView);
+        itemCost.setText(item.price + "");
+        TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
+        profit.setText(item.expectedProfit + "");
+
         //RelativeLayout item = (RelativeLayout) view.findViewById(R.id.item);
     }
 
