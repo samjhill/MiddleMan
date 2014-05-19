@@ -58,8 +58,8 @@ public class MiddleManMainActivity extends Activity {
                 checkInputs();
             }
         });
-
-        searchCraigslistAndEBay("ipod", "Rochester");
+        checkInputs();
+        //searchCraigslistAndEBay("ipod", "Rochester");
     }
 
     private void checkInputs(){
@@ -70,8 +70,12 @@ public class MiddleManMainActivity extends Activity {
 
         if ( (location.equals("") || location == null) && (item.equals("")||item == null)){
             Toast.makeText(this, "A location and item to search is required", Toast.LENGTH_LONG).show();
+        } else if (location.equals("") || location == null) {
+            Toast.makeText(this, "A location is required", Toast.LENGTH_LONG).show();
+        } else if (item.equals("")||item == null){
+            Toast.makeText(this, "Am item name to search is required", Toast.LENGTH_LONG).show();
         } else {
-            //
+            searchCraigslistAndEBay(item, location);
         }
     }
 
