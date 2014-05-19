@@ -71,6 +71,10 @@ class CraigslistItem implements Comparable<CraigslistItem> {
     public int compareTo(CraigslistItem other) {
         return price.compareTo(other.price);
     }
+
+    public String toString() {
+        return itemTitle;
+    }
 }
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
@@ -109,6 +113,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         //super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         products = new ArrayList<Product>();
+
 
 
         Log.v("Stuff","Right before try/catch");
