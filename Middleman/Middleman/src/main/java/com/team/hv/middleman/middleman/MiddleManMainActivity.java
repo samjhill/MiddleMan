@@ -92,6 +92,8 @@ public class MiddleManMainActivity extends Activity {
 
         //}
 
+
+
         Log.v("Both are done", "DONE!");
     }
 
@@ -109,6 +111,8 @@ public class MiddleManMainActivity extends Activity {
             dialog.dismiss();
         }
     }
+
+
 }
 
 /*class LoadingDialog extends AsyncTask<String, Void, Boolean> {
