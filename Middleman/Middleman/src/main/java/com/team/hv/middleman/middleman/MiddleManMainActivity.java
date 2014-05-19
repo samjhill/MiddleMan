@@ -118,6 +118,9 @@ public class MiddleManMainActivity extends Activity {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
+        for(int i = 0; i < craigsItems.size(); i++){
+            addItemToMain(craigsItems.get(i));
+        }
     }
 
     public static void addItemToMain(CraigslistItem item){
