@@ -62,6 +62,7 @@ public class MiddleManMainActivity extends FragmentActivity {
         setContentView(R.layout.results_list_view);
         //setContentView(R.layout.default_empty_view);
 
+
         thisContext = getApplicationContext();
         thisLayout = getWindow().getDecorView();
 
@@ -73,22 +74,30 @@ public class MiddleManMainActivity extends FragmentActivity {
                 Log.w("item", ""+position);
                 Toast.makeText(getBaseContext(), ""+position, Toast.LENGTH_LONG).show();
 
-                ItemView itemView = new ItemView();
                 Bundle bundle = new Bundle();
+                ItemView itemView = new ItemView();
+
                 CraigslistItem thisItem = craigsItems.get(position);
                 bundle.putString("itemTitle",thisItem.itemTitle);
+                Log.v("itemTitle",thisItem.itemTitle);
                 bundle.putString("link",thisItem.link);
+                Log.v("itemTitle",thisItem.link);
                 bundle.putString("description",thisItem.description);
+                Log.v("itemTitle",thisItem.description);
                 bundle.putString("location",thisItem.location);
-                bundle.putDouble("average",thisItem.average);
+                Log.v("itemTitle",thisItem.location);
+                bundle.putDouble("average", thisItem.average);
+                Log.v("itemTitle",""+thisItem.average);
                 bundle.putDouble("profit",thisItem.expectedProfit);
+                Log.v("itemTitle",""+thisItem.expectedProfit);
                 bundle.putDouble("price",thisItem.price);
+                Log.v("itemTitle",""+thisItem.price);
                 itemView.setArguments(bundle);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(android.R.id.content, itemView);
-                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.addToBackStack("");
                 fragmentTransaction.commit();
             }
         });
