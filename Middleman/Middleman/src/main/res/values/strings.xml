@@ -12,7 +12,7 @@
     <string name="title_activity_feed">feed</string>
     <string name="action_settings">Settings</string>
     <string name="item_low_price">Low Price:</string>
-    <string name="item_avg_price">Average Price:</string>
+    <string name="item_avg_price">Average Price on eBay:</string>
     <string name="item_max_price">Max Price:</string>
     <string name="item_offered_price">Offered Price:</string>
     <string name="item_location">Location:</string>

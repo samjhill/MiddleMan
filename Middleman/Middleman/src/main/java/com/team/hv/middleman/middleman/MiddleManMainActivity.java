@@ -1,12 +1,15 @@
 package com.team.hv.middleman.middleman;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 
 import com.team.hv.middleman.middleman.XmlReader;
 
-public class MiddleManMainActivity extends Activity {
+public class MiddleManMainActivity extends FragmentActivity {
 
     public static boolean clComplete = false;
     public static boolean ebayComplete = false;
@@ -62,11 +66,37 @@ public class MiddleManMainActivity extends Activity {
         thisLayout = getWindow().getDecorView();
 
         selectedItemsListView = (ListView)findViewById(R.id.selectedItemsListView);
+        selectedItemsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = ((TextView)view).getText().toString();
+                Log.w("item", ""+position);
+                Toast.makeText(getBaseContext(), ""+position, Toast.LENGTH_LONG).show();
+
+                ItemView itemView = new ItemView();
+                Bundle bundle = new Bundle();
+                CraigslistItem thisItem = craigsItems.get(position);
+                bundle.putString("itemTitle",thisItem.itemTitle);
+                bundle.putString("link",thisItem.link);
+                bundle.putString("description",thisItem.description);
+                bundle.putString("location",thisItem.location);
+                bundle.putDouble("average",thisItem.average);
+                bundle.putDouble("profit",thisItem.expectedProfit);
+                bundle.putDouble("price",thisItem.price);
+                itemView.setArguments(bundle);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(android.R.id.content, itemView);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         craigsItems = new ArrayList<CraigslistItem>();
         dialog = new ProgressDialog(this);
-        String dummyUrl = "www.whatever.com";
         Log.v("Starting:","it's goin");
+
         findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +118,7 @@ public class MiddleManMainActivity extends Activity {
         } else if (location.equals("") || location == null) {
             Toast.makeText(this, "A location is required", Toast.LENGTH_LONG).show();
         } else if (item.equals("")||item == null){
-            Toast.makeText(this, "Am item name to search is required", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "An item name to search is required", Toast.LENGTH_LONG).show();
         } else {
             searchCraigslistAndEBay(item, location);
         }

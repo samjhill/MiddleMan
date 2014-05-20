@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ItemView"
+            android:label="Middleman Item View"/>
         <activity
             android:name="com.team.hv.middleman.middleman.feed"
             android:label="@string/title_activity_feed" >
