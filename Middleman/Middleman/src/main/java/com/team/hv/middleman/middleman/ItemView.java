@@ -3,13 +3,18 @@ package com.team.hv.middleman.middleman;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by Ben on 5/19/2014.
@@ -26,7 +31,7 @@ public class ItemView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         Log.v("onCreateView","Called");
         Log.v("Bundle size",""+getArguments().size());
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         //super.onCreateView(savedInstanceState);
         View view = inflater.inflate(R.layout.item_view, container, false);
 
@@ -42,14 +47,24 @@ public class ItemView extends Fragment {
         //TextView linkView = (TextView)view.findViewById(R.id.itemNameTextView);
         //linkView.setText((String)bundle.get("link"));
 
+        NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
+
         TextView priceView = (TextView)view.findViewById(R.id.itemOfferedPriceTextView);
-        priceView.setText("$"+bundle.get("price"));
+        priceView.setText(n.format(bundle.get("price")));
 
         TextView avgView = (TextView)view.findViewById(R.id.itemAveragePriceTextView);
-        avgView.setText("$"+bundle.get("average"));
+        avgView.setText(n.format(bundle.get("average")));
 
         TextView profitView = (TextView)view.findViewById(R.id.itemExpectedProfitTextView);
-        profitView.setText("$"+bundle.get("profit"));
+        profitView.setText(n.format(bundle.get("profit")));
+
+        Button listingButt = (Button)view.findViewById(R.id.viewListingButton);
+        listingButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showWebsiteInDefaultBrowser((String)bundle.get("link"));
+            }
+        });
 
 
 
@@ -63,6 +78,11 @@ public class ItemView extends Fragment {
         super.onCreate(savedInstanceState);
         Log.v("Bundle size onCreate",""+getArguments().size());
         Log.v("onCreate","Called");
+    }
+
+    public void showWebsiteInDefaultBrowser(String link){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+        startActivity(browserIntent);
     }
 
 }
