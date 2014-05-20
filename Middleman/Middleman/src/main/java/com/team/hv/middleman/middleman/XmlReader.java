@@ -370,11 +370,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         Log.v("","High: "+maxPrice+" - Avg: "+avgPrice+" - Low: "+minPrice +" - Count: "+products.size());
 
 
-        for (int r = 0; r < products.size();r++){
-            if (products.get(r).price > eBayAvgPrice){
-                products.remove(r);
-            }
-        }
+
         return products;
 
     }
@@ -431,7 +427,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                 for (int i=0;i < nodeListOfItems.getLength(); i++) {
                     String title;
                     String link;
-                    String price;
+                    Double price;
                     String description;
                     String location;
 
@@ -459,16 +455,20 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                     if (titleText.contains("&#x0024;")) {
                         title = titleText.substring(0, titleText.indexOf("&#x0024;"));
                         Log.v("Title", titleText);
-                        price = titleText.substring(titleText.indexOf("&#x0024;")+8, titleText.length());
+                        price = Double.parseDouble(titleText.substring(titleText.indexOf("&#x0024;")+8, titleText.length()));
                         Log.v("Index of $",""+titleText.indexOf("&#x0024;"));
                         Log.v("Index of last",""+(titleText.length()-1));
                         //Log.v("price:",price);
                         //price = "";
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price), description, location, eBayAvgPrice));
+                        if (price < eBayAvgPrice) {
+                            items.add(new CraigslistItem(title, link, price, description, location, eBayAvgPrice));
+                        }
                     } else if (titleText.contains("$")) {
                         title = titleText.substring(0, titleText.indexOf("$"));
-                        price = titleText.substring(titleText.indexOf("$")+1, titleText.length());
-                        items.add(new CraigslistItem(title,link,Double.parseDouble(price),description, location, eBayAvgPrice));
+                        price = Double.parseDouble(titleText.substring(titleText.indexOf("$")+1, titleText.length()));
+                        if (price > eBayAvgPrice) {
+                            items.add(new CraigslistItem(title, link, price, description, location, eBayAvgPrice));
+                        }
                     }
                     Log.v("At number",""+i);
                 }

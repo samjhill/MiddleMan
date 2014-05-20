@@ -123,7 +123,7 @@ public class MiddleManMainActivity extends FragmentActivity {
         String item = itemField.getText().toString().trim();
 
         if ( (location.equals("") || location == null) && (item.equals("")||item == null)){
-            Toast.makeText(this, "A location and item to search is required", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "A location and item to search are required", Toast.LENGTH_LONG).show();
         } else if (location.equals("") || location == null) {
             Toast.makeText(this, "A location is required", Toast.LENGTH_LONG).show();
         } else if (item.equals("")||item == null){
@@ -156,7 +156,7 @@ public class MiddleManMainActivity extends FragmentActivity {
     }
 
     public static void displayLoadingDialog() {
-        dialog.setMessage("Loading data from Craigslist and EBay. Sit tight, grab a cold drink.");
+        dialog.setMessage("Loading data from Craigslist and eBay. Sit tight, grab a cold drink.");
         dialog.show();
     }
 
