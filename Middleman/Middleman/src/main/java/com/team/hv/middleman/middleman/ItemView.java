@@ -55,6 +55,7 @@ public class ItemView extends android.support.v4.app.Fragment {
         profitView.setText(n.format(bundle.get("profit")));
 
         Button listingButt = (Button)view.findViewById(R.id.viewListingButton);
+        listingButt.setText("Add to Cart");
         listingButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +63,7 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
-        Button removeItemButt = (Button)view.findViewById(R.id.removeThisItemButton);
+        Button removeItemButt = (Button)view.findViewById(R.id.removeOrAddToCartButton);
         removeItemButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,11 +95,6 @@ public class ItemView extends android.support.v4.app.Fragment {
     private void showWebsiteInDefaultBrowser(String link){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
-    }
-
-    private void finishActivityAndRemoveThisItem() {
-        MiddleManMainActivity.removeThisItemFromListView(position);
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     private void finishActivityAndAddThisItem() {
