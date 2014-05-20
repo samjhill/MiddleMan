@@ -93,6 +93,7 @@ public class MiddleManMainActivity extends FragmentActivity {
                 Log.v("itemTitle",""+thisItem.expectedProfit);
                 bundle.putDouble("price",thisItem.price);
                 Log.v("itemTitle",""+thisItem.price);
+                bundle.putInt("index",position);
                 itemView.setArguments(bundle);
 
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -217,6 +218,11 @@ public class MiddleManMainActivity extends FragmentActivity {
         //add to parent layout
         LinearLayout mainLayout = (LinearLayout) thisLayout;
         mainLayout.addView(view);
+    }
+
+    public static void removeThisItemFromListView(int index){
+        craigsItems.remove(index);
+        listViewAdapter.notifyDataSetChanged();
     }
 }
 

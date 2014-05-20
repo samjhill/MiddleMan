@@ -20,13 +20,7 @@ import java.util.Locale;
  * Created by Ben on 5/19/2014.
  */
 public class ItemView extends android.support.v4.app.Fragment {
-    private String itemTitle;
-    private String link;
-    private Double price;
-    private String description;
-    private String location;
-    private Double average;
-    private Double expectedProfit;
+    private int position;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         Log.v("onCreateView","Called");
@@ -34,6 +28,8 @@ public class ItemView extends android.support.v4.app.Fragment {
         final Bundle bundle = getArguments();
         //super.onCreateView(savedInstanceState);
         View view = inflater.inflate(R.layout.item_view, container, false);
+
+        position = (Integer)bundle.get("index");
 
         TextView titleView = (TextView)view.findViewById(R.id.itemNameTextView);
         titleView.setText((String)bundle.get("itemTitle"));
@@ -66,6 +62,14 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
+        Button removeItemButt = (Button)view.findViewById(R.id.removeThisItemButton);
+        removeItemButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivityAndRemoveThisItem();
+            }
+        });
+
 
 
         return view;
@@ -80,9 +84,14 @@ public class ItemView extends android.support.v4.app.Fragment {
         Log.v("onCreate","Called");
     }
 
-    public void showWebsiteInDefaultBrowser(String link){
+    private void showWebsiteInDefaultBrowser(String link){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
+    }
+
+    private void finishActivityAndRemoveThisItem() {
+        MiddleManMainActivity.removeThisItemFromListView(position);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
 }
