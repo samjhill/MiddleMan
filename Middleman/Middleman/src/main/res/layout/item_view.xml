@@ -194,39 +194,33 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/remove_this_item"
             android:id="@+id/removeOrAddToCartButton"
-            android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:textColor="@color/white" />
+            android:src="@drawable/ic_cancel" />
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_to_cart"
             android:id="@+id/addToCartButton"
-            android:layout_gravity="center_horizontal"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:textColor="@color/white" />
+            android:src="@drawable/ic_add" />
 
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:weightSum="1">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Listing Page"
             android:id="@+id/viewListingButton"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_weight="0.85"
+            android:layout_marginLeft="15dp" />
     </TableRow>
 
 
