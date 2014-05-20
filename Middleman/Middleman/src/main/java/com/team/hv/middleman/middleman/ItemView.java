@@ -63,19 +63,11 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
-        Button removeItemButt = (Button)view.findViewById(R.id.removeOrAddToCartButton);
-        removeItemButt.setOnClickListener(new View.OnClickListener() {
+        Button addToCartButt = (Button)view.findViewById(R.id.removeOrAddToCartButton);
+        addToCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivityAndRemoveThisItem();
-            }
-        });
-
-        Button addItemButt = (Button)view.findViewById(R.id.addToCartButton);
-        addItemButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishActivityAndAddThisItem();
+                MiddleManMainActivity.addItemToCart(position);
             }
         });
 

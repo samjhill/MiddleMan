@@ -183,6 +183,13 @@ public class MiddleManMainActivity extends FragmentActivity {
         }
     }
 
+    public static void removeItemFromCart(int index){
+        itemsCart.remove(index);
+    }
+
+    public static void addItemToCart(int index){
+        itemsCart.add(craigsItems.get(index));
+    }
 
 
 }
