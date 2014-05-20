@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -59,11 +60,11 @@ public class ItemView extends android.support.v4.app.Fragment {
         listingButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWebsiteInDefaultBrowser((String)bundle.get("link"));
+                showWebsiteInDefaultBrowser((String) bundle.get("link"));
             }
         });
 
-        Button addToCartButt = (Button)view.findViewById(R.id.removeOrAddToCartButton);
+        ImageButton addToCartButt = (ImageButton)view.findViewById(R.id.removeOrAddToCartButton);
         addToCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +82,7 @@ public class ItemView extends android.support.v4.app.Fragment {
         Log.v("Bundle size onCreate",""+getArguments().size());
         super.onCreate(savedInstanceState);
         Log.v("Bundle size onCreate",""+getArguments().size());
-        Log.v("onCreate","Called");
+        Log.v("onCreate", "Called");
     }
 
     private void showWebsiteInDefaultBrowser(String link){
