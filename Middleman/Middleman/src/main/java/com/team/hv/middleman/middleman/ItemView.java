@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * Created by Ben on 5/19/2014.
  */
-public class ItemView extends Fragment {
+public class ItemView extends android.support.v4.app.Fragment {
     private String itemTitle;
     private String link;
     private Double price;

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,8 +95,7 @@ public class MiddleManMainActivity extends FragmentActivity {
                 Log.v("itemTitle",""+thisItem.price);
                 itemView.setArguments(bundle);
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(android.R.id.content, itemView);
                 fragmentTransaction.addToBackStack("");
                 fragmentTransaction.commit();
