@@ -188,6 +188,7 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:paddingLeft="10dp" />
+
     </TableRow>
 
     <TableRow
@@ -205,6 +206,22 @@
             android:padding="10dp"
             android:layout_margin="10dp"
             android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_cart"
+            android:id="@+id/addToCartButton"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:textColor="@color/white" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <Button
             android:layout_width="wrap_content"

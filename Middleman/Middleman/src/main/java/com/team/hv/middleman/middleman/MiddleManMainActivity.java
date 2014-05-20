@@ -46,6 +46,7 @@ public class MiddleManMainActivity extends FragmentActivity {
     public static Double ebayLowPrice = 0.0;
 
     public static ArrayList<CraigslistItem> craigsItems;
+    public static ArrayList<CraigslistItem> itemCart = new ArrayList<CraigslistItem>();
 
     private static ProgressDialog dialog;
     private static ListView selectedItemsListView;
@@ -172,7 +173,7 @@ public class MiddleManMainActivity extends FragmentActivity {
 
     private static void addCraigsItemsToListView() {
         ArrayList<String> empty = new ArrayList<String>();
-        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext,android.R.layout.simple_list_item_1, empty));
+        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext, android.R.layout.simple_list_item_1, empty));
         listViewAdapter = new ArrayAdapter<CraigslistItem>(thisContext, android.R.layout.simple_list_item_1, craigsItems);
         selectedItemsListView.setAdapter(listViewAdapter);
 
@@ -182,42 +183,8 @@ public class MiddleManMainActivity extends FragmentActivity {
         }
     }
 
-    public static void addItemToMain(CraigslistItem item){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)  thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.activity_middle_man_main, null);
-        //populate the fields
-        TextView mainDesc = (TextView) view.findViewById(R.id.itemMainDescTextView);
-        mainDesc.setText(item.itemTitle);
-        TextView itemCost = (TextView) view.findViewById(R.id.itemCostTextView);
-        itemCost.setText(item.price + "");
-        TextView profit = (TextView) view.findViewById(R.id.itemProfitTextView);
-        profit.setText(item.expectedProfit + "");
-        //add to parent layout
-        LinearLayout mainLayout = (LinearLayout) thisLayout.findViewById(android.R.id.content);
-        mainLayout.addView(view);
-    }
-
-    public static void addItemToItemView(CraigslistItem item){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)  thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.item_view, null);
-        //populate the fields
-        TextView itemName = (TextView) view.findViewById(R.id.itemNameTextView);
-        itemName.setText(item.itemTitle);
-        TextView description = (TextView) view.findViewById(R.id.itemDescTextView);
-        description.setText(item.description);
-        TextView location = (TextView) view.findViewById(R.id.itemLocationTextView);
-        location.setText(item.location);
-        TextView price = (TextView) view.findViewById(R.id.itemOfferedPriceTextView);
-        price.setText(item.price + "");
-        TextView avgPrice = (TextView) view.findViewById(R.id.itemAveragePriceTextView);
-        avgPrice.setText(item.average + "");
-        TextView profit = (TextView) view.findViewById(R.id.itemExpectedProfitTextView);
-        profit.setText(item.expectedProfit + "");
-        //add to parent layout
-        LinearLayout mainLayout = (LinearLayout) thisLayout;
-        mainLayout.addView(view);
+    public static void addItemToCart(int index){
+        itemCart.add(craigsItems.get(index));
     }
 
     public static void removeThisItemFromListView(int index){
@@ -225,81 +192,3 @@ public class MiddleManMainActivity extends FragmentActivity {
         listViewAdapter.notifyDataSetChanged();
     }
 }
-
-/*class LoadingDialog extends AsyncTask<String, Void, Boolean> {
-
-
-    public LoadingDialog(ListActivity activity) {
-        this.activity = activity;
-        dialog = new ProgressDialog(MiddleManMainActivity.getContext());
-    }
-
-    *//** progress dialog to show user that the backup is processing. *//*
-    private ProgressDialog dialog;
-    *//** application context. *//*
-    private ListActivity activity;
-
-    protected void onPreExecute() {
-        this.dialog.setMessage("Progress start");
-        this.dialog.show();
-    }
-
-    @Override
-    protected void onPostExecute(final Boolean success) {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
-
-
-        MessageListAdapter adapter = new MessageListAdapter(activity, titles);
-        setListAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-
-        if (success) {
-            Toast.makeText(context, "OK", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    protected Boolean doInBackground(final String... args) {
-        try{
-            BaseFeedParser parser = new BaseFeedParser();
-            messages = parser.parse();
-            List<Message> titles = new ArrayList<Message>(messages.size());
-            for (Message msg : messages){
-                titles.add(msg);
-            }
-            activity.setMessages(titles);
-            return true;
-        } catch (Exception e)
-        Log.e("tag", "error", e);
-        return false;
-    }
-}
-}
-
-public class Soirees extends ListActivity {
-    private List<Message> messages;
-    private TextView tvSorties;
-    private MyProgressDialog dialog;
-    @Override
-    public void onCreate(Bundle icicle) {
-
-        super.onCreate(icicle);
-
-        setContentView(R.layout.sorties);
-
-        tvSorties=(TextView)findViewById(R.id.TVTitle);
-        tvSorties.setText("Programme des soirées");
-
-        // just call here the task
-        AsyncTask task = new ProgressTask(this).execute();
-    }
-
-    public void setMessages(List<Message> msgs) {
-        messages = msgs;
-    }
-
-}*/

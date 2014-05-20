@@ -21,6 +21,7 @@
     <string name="item_expected_profit">Expected Profit:</string>
     <string name="placeholder_text">$$$ Placeholder $$$</string>
     <string name="remove_this_item">Remove this Item</string>
+    <string name="add_to_cart">Add to Cart</string>
 
 
 </resources>

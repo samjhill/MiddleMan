@@ -70,6 +70,13 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
+        Button addItemButt = (Button)view.findViewById(R.id.addToCartButton);
+        addItemButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishActivityAndAddThisItem();
+            }
+        });
 
 
         return view;
@@ -91,6 +98,11 @@ public class ItemView extends android.support.v4.app.Fragment {
 
     private void finishActivityAndRemoveThisItem() {
         MiddleManMainActivity.removeThisItemFromListView(position);
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+    private void finishActivityAndAddThisItem() {
+        MiddleManMainActivity.addItemToCart(position);
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
