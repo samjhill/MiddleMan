@@ -66,7 +66,7 @@ public class ItemView extends android.support.v4.app.Fragment {
         profitView.setText(n.format(bundle.get("profit")));
 
         Button listingButt = (Button)view.findViewById(R.id.viewListingButton);
-        listingButt.setText("Add to Cart");
+
         listingButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,20 +74,43 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
-        ImageButton addOrRemoveFromCartButt = (ImageButton)view.findViewById(R.id.removeOrAddToCartButton);
+        final ImageButton removeFromCartButt = (ImageButton)view.findViewById(R.id.removeFromCartButton);
+        final ImageButton addItemToCartButt = (ImageButton)view.findViewById(R.id.addToCartButton);
 
-        addOrRemoveFromCartButt.setOnClickListener(new View.OnClickListener() {
+        removeFromCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bundle.get("type").equals("ItemView")) {
+                MiddleManMainActivity.removeItemFromCart(position);
+                //if (bundle.get("type").equals("ItemView")) {
+
+                    /*
                     if (!MiddleManMainActivity.addItemToCart(position)){
                         Toast.makeText(getActivity(), "Item already in cart", Toast.LENGTH_LONG).show();
-                    }
-                } else if (bundle.get("type").equals("RouteView")) {
-                    finishActivityAndRemoveThisItemFromCart();
+                    }*/
+                //}
+                if (bundle.get("type").equals("RouteView")) {
+                    removeThis();
+                } else {
+                    removeFromCartButt.setVisibility(View.INVISIBLE);
+                    addItemToCartButt.setVisibility(View.VISIBLE);
                 }
             }
         });
+
+        addItemToCartButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MiddleManMainActivity.addItemToCart(position);
+                removeFromCartButt.setVisibility(View.VISIBLE);
+                addItemToCartButt.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        if (bundle.get("type").equals("RouteView") || isInCart((String)bundle.get("itemTitle"))){
+            view.findViewById(R.id.addToCartButton).setVisibility(View.INVISIBLE);
+        } else {
+            view.findViewById(R.id.removeFromCartButton).setVisibility(View.INVISIBLE);
+        }
 
         return view;
     }
@@ -97,9 +120,24 @@ public class ItemView extends android.support.v4.app.Fragment {
         startActivity(browserIntent);
     }
 
+    private void removeThis() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
     private void finishActivityAndRemoveThisItemFromCart() {
         MiddleManMainActivity.removeItemFromCart(position);
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+    private boolean isInCart (String thisTitle)
+    {
+        for (CraigslistItem thisItem : MiddleManMainActivity.itemsCart)
+        {
+            String cartItemTitle = thisItem.itemTitle;
+            if (cartItemTitle.equals(thisTitle))
+                return true;
+        }
+        return false;
     }
 
 }
