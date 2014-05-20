@@ -73,7 +73,7 @@ public class MiddleManMainActivity extends FragmentActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = ((TextView)view).getText().toString();
                 Log.w("item", ""+position);
-                Toast.makeText(getBaseContext(), ""+position, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), ""+position, Toast.LENGTH_LONG).show();
 
                 Bundle bundle = new Bundle();
                 ItemView itemView = new ItemView();
@@ -109,6 +109,7 @@ public class MiddleManMainActivity extends FragmentActivity {
         findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                craigsItems.clear();
                 checkInputs();
             }
         });
@@ -161,15 +162,23 @@ public class MiddleManMainActivity extends FragmentActivity {
     }
 
     public static void closeLoadingDialog() {
+        addCraigsItemsToListView();
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
-        addCraigsItemsToListView();
+
     }
 
     private static void addCraigsItemsToListView() {
+        ArrayList<String> empty = new ArrayList<String>();
+        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext,android.R.layout.simple_list_item_1, empty));
         listViewAdapter = new ArrayAdapter<CraigslistItem>(thisContext, android.R.layout.simple_list_item_1, craigsItems);
         selectedItemsListView.setAdapter(listViewAdapter);
+
+        Log.v("ListViewAdapter", ""+listViewAdapter.getCount());
+        if (listViewAdapter.getCount()==0){
+            Toast.makeText(thisContext, "No results returned",Toast.LENGTH_LONG).show();
+        }
     }
 
     public static void addItemToMain(CraigslistItem item){
