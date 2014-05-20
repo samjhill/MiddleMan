@@ -46,7 +46,7 @@ public class MiddleManMainActivity extends FragmentActivity {
     public static Double ebayLowPrice = 0.0;
 
     public static ArrayList<CraigslistItem> craigsItems;
-    public static ArrayList<CraigslistItem> itemCart = new ArrayList<CraigslistItem>();
+    public static ArrayList<CraigslistItem> itemsCart;
 
     private static ProgressDialog dialog;
     private static ListView selectedItemsListView;
@@ -173,7 +173,7 @@ public class MiddleManMainActivity extends FragmentActivity {
 
     private static void addCraigsItemsToListView() {
         ArrayList<String> empty = new ArrayList<String>();
-        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext, android.R.layout.simple_list_item_1, empty));
+        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext,android.R.layout.simple_list_item_1, empty));
         listViewAdapter = new ArrayAdapter<CraigslistItem>(thisContext, android.R.layout.simple_list_item_1, craigsItems);
         selectedItemsListView.setAdapter(listViewAdapter);
 
@@ -183,12 +183,7 @@ public class MiddleManMainActivity extends FragmentActivity {
         }
     }
 
-    public static void addItemToCart(int index){
-        itemCart.add(craigsItems.get(index));
-    }
 
-    public static void removeThisItemFromListView(int index){
-        craigsItems.remove(index);
-        listViewAdapter.notifyDataSetChanged();
-    }
+
 }
+
