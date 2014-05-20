@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,8 @@ public class MiddleManMainActivity extends FragmentActivity {
         thisContext = getApplicationContext();
         thisLayout = getWindow().getDecorView();
 
+        itemsCart = new ArrayList<CraigslistItem>();
+
         selectedItemsListView = (ListView)findViewById(R.id.selectedItemsListView);
         selectedItemsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,26 +84,24 @@ public class MiddleManMainActivity extends FragmentActivity {
 
                 CraigslistItem thisItem = craigsItems.get(position);
                 bundle.putString("itemTitle",thisItem.itemTitle);
-                Log.v("itemTitle",thisItem.itemTitle);
-                bundle.putString("link",thisItem.link);
-                Log.v("itemTitle",thisItem.link);
-                bundle.putString("description",thisItem.description);
-                Log.v("itemTitle",thisItem.description);
-                bundle.putString("location",thisItem.location);
-                Log.v("itemTitle",thisItem.location);
+                Log.v("itemTitle", thisItem.itemTitle);
+                bundle.putString("link", thisItem.link);
+                Log.v("itemTitle", thisItem.link);
+                bundle.putString("description", thisItem.description);
+                Log.v("itemTitle", thisItem.description);
+                bundle.putString("location", thisItem.location);
+                Log.v("itemTitle", thisItem.location);
                 bundle.putDouble("average", thisItem.average);
-                Log.v("itemTitle",""+thisItem.average);
-                bundle.putDouble("profit",thisItem.expectedProfit);
-                Log.v("itemTitle",""+thisItem.expectedProfit);
-                bundle.putDouble("price",thisItem.price);
-                Log.v("itemTitle",""+thisItem.price);
-                bundle.putInt("index",position);
+                Log.v("itemTitle", "" + thisItem.average);
+                bundle.putDouble("profit", thisItem.expectedProfit);
+                Log.v("itemTitle", "" + thisItem.expectedProfit);
+                bundle.putDouble("price", thisItem.price);
+                Log.v("itemTitle", "" + thisItem.price);
+                bundle.putInt("index", position);
+                bundle.putString("type","ItemView");
                 itemView.setArguments(bundle);
 
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(android.R.id.content, itemView);
-                fragmentTransaction.addToBackStack("");
-                fragmentTransaction.commit();
+                startFragment(itemView);
             }
         });
 
@@ -117,6 +118,31 @@ public class MiddleManMainActivity extends FragmentActivity {
         });
         checkInputs();
         //searchCraigslistAndEBay("ipod", "Rochester");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.default_menu, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_cart:
+                startFragment(new RouteView());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startFragment(Fragment fragToPassIn) {
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(android.R.id.content, fragToPassIn);
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.commit();
     }
 
     private void checkInputs(){
@@ -173,7 +199,7 @@ public class MiddleManMainActivity extends FragmentActivity {
 
     private static void addCraigsItemsToListView() {
         ArrayList<String> empty = new ArrayList<String>();
-        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext,android.R.layout.simple_list_item_1, empty));
+        selectedItemsListView.setAdapter(new ArrayAdapter<String>(thisContext, android.R.layout.simple_list_item_1, empty));
         listViewAdapter = new ArrayAdapter<CraigslistItem>(thisContext, android.R.layout.simple_list_item_1, craigsItems);
         selectedItemsListView.setAdapter(listViewAdapter);
 
@@ -187,8 +213,13 @@ public class MiddleManMainActivity extends FragmentActivity {
         itemsCart.remove(index);
     }
 
-    public static void addItemToCart(int index){
-        itemsCart.add(craigsItems.get(index));
+    public static boolean addItemToCart(int index){
+        if (!itemsCart.contains(craigsItems.get(index))) {
+            itemsCart.add(craigsItems.get(index));
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
