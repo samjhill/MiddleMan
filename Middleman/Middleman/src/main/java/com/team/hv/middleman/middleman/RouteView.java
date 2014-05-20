@@ -92,10 +92,10 @@ public class RouteView extends Fragment {
         cartListViewAdapter = new ArrayAdapter<CraigslistItem>(getActivity(), android.R.layout.simple_list_item_1, cartItems);
         cartListView.setAdapter(cartListViewAdapter);
         Log.v("cartListViewAdapter", "" + cartListViewAdapter.getCount());
-        TextView costUpfrontTextView = (TextView) cartListView.findViewById(R.id.costUpfrontTextview);
-        TextView estimatedProfitTextView = (TextView) cartListView.findViewById(R.id.estimatedProfitTextView);
-        costUpfrontTextView.setText("$" + totalCost);
-        estimatedProfitTextView.setText("$" + totalProfit);
+        //TextView costUpfrontTextView = (TextView) cartListView.findViewById(R.id.costUpfrontTextview);
+        //TextView estimatedProfitTextView = (TextView) cartListView.findViewById(R.id.estimatedProfitTextView);
+        //costUpfrontTextView.setText("$" + totalCost);
+        //estimatedProfitTextView.setText("$" + totalProfit);
         if (cartListViewAdapter.getCount()==0){
             Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_LONG).show();
         }
