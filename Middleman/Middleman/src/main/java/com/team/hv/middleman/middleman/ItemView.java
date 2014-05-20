@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -22,6 +23,15 @@ import java.util.Locale;
  */
 public class ItemView extends android.support.v4.app.Fragment {
     private int position;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        Log.v("Bundle size onCreate",""+getArguments().size());
+        super.onCreate(savedInstanceState);
+        Log.v("Bundle size onCreate",""+getArguments().size());
+        Log.v("onCreate", "Called");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         Log.v("onCreateView","Called");
@@ -64,25 +74,22 @@ public class ItemView extends android.support.v4.app.Fragment {
             }
         });
 
-        ImageButton addToCartButt = (ImageButton)view.findViewById(R.id.removeOrAddToCartButton);
-        addToCartButt.setOnClickListener(new View.OnClickListener() {
+        ImageButton addOrRemoveFromCartButt = (ImageButton)view.findViewById(R.id.removeOrAddToCartButton);
+
+        addOrRemoveFromCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MiddleManMainActivity.addItemToCart(position);
+                if (bundle.get("type").equals("ItemView")) {
+                    if (!MiddleManMainActivity.addItemToCart(position)){
+                        Toast.makeText(getActivity(), "Item already in cart", Toast.LENGTH_LONG).show();
+                    }
+                } else if (bundle.get("type").equals("RouteView")) {
+                    finishActivityAndRemoveThisItemFromCart();
+                }
             }
         });
 
-
         return view;
-
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        Log.v("Bundle size onCreate",""+getArguments().size());
-        super.onCreate(savedInstanceState);
-        Log.v("Bundle size onCreate",""+getArguments().size());
-        Log.v("onCreate", "Called");
     }
 
     private void showWebsiteInDefaultBrowser(String link){
@@ -90,8 +97,8 @@ public class ItemView extends android.support.v4.app.Fragment {
         startActivity(browserIntent);
     }
 
-    private void finishActivityAndAddThisItem() {
-        MiddleManMainActivity.addItemToCart(position);
+    private void finishActivityAndRemoveThisItemFromCart() {
+        MiddleManMainActivity.removeItemFromCart(position);
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 

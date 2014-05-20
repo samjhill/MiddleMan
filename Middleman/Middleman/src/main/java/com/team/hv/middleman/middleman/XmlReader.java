@@ -347,21 +347,6 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
 
         Log.v("MiddleManMainActivity","Number of items: " + (numItems));
-        /*
-        double ebayHighPrice = 0; //lowest price of remaining items in products arrayList
-        for(int i = 0; i > products.size(); i++) {
-            if(products.get(i).price > ebayHighPrice) {
-                ebayHighPrice = products.get(i).price;
-            }
-        }
-        double ebagAvgPrice = standardizedsum / products.size()*1.0;
-        double ebayLowPrice = 99999999; //highest price of remaining items in products arrayList
-        for(int i = 0; i > products.size(); i++) {
-            if(products.get(i).price < ebayLowPrice) {
-                ebayLowPrice = products.get(i).price;
-            }
-        }
-        */
 
         eBayAvgPrice = avgPrice;
         MiddleManMainActivity.ebayHighPrice = maxPrice;
