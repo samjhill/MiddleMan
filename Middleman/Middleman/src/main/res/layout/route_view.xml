@@ -3,24 +3,18 @@
 <TableLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp"
+    android:padding="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:clickable="true"
+    style="@style/WhiteTextTheme">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:id="@+id/cartItemsListView"
-        android:textFilterEnabled="false">
-
-    </ListView>
-
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
             android:layout_height="wrap_content"
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Route Summary"
+            android:text="@string/route_summary"
             android:textColor="@color/blue"
             android:textSize="30dp"
             android:layout_gravity="center"
@@ -28,9 +22,9 @@
             android:id="@+id/routeSummaryTextView"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
-            android:text="Cost upfront:"
+            android:text="@string/cost_upfront_label_text"
             android:textColor="@color/white"
             android:layout_marginRight="5dp"
             android:textSize="17sp"
@@ -38,14 +32,14 @@
             android:layout_gravity="right"
             android:id="@+id/costUpfrontLabelTextView"/>
         <TextView
-            android:text="$$$ PLACEHOLDER $$$$"
+            android:text="@string/placeholder_text"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:id="@+id/costUpfrontTextview"/>
     </TableRow>
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
-            android:text="Estimated profit:"
+            android:text="@string/extimated_profit_label_text"
             android:textColor="@color/white"
             android:layout_marginRight="5dp"
             android:textSize="17sp"
@@ -53,27 +47,23 @@
             android:layout_gravity="right"
             android:id="@+id/estimatedCostLabelTextView"/>
         <TextView
-            android:text="$$$ PLACEHOLDER $$$$"
+            android:text="@string/placeholder_text"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:id="@+id/estimatedProfitTextView"/>
 
     </TableRow>
 
-    <TableRow
+    <ListView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></TableRow>
+        android:layout_height="match_parent"
+        android:id="@+id/cartItemsListView"
+        android:textFilterEnabled="false"
+        style="@style/WhiteTextTheme"
+        android:background="#ffffff"
+        android:layout_marginTop="20dp">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mapImageView"
-            android:layout_column="0" />
-    </TableRow>
+    </ListView>
 
 
     <!-- TODO: open up a map object on click, all this fragment displays -->

@@ -22,6 +22,12 @@
     <string name="placeholder_text">$$$ Placeholder $$$</string>
     <string name="remove_this_item">Remove this Item</string>
     <string name="add_to_cart">Add to Cart</string>
+    <string name="search_button_text">Search for Results</string>
+    <string name="location_label_text">Location: </string>
+    <string name="item_label_text">Item: </string>
+    <string name="cost_upfront_label_text">Cost upfront:</string>
+    <string name="extimated_profit_label_text">Estimated profit:</string>
+    <string name="route_summary">Route Summary</string>
 
 
 </resources>

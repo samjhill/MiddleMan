@@ -1,7 +1,12 @@
 package com.team.hv.middleman.middleman;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -80,7 +85,6 @@ public class ItemView extends android.support.v4.app.Fragment {
         removeFromCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MiddleManMainActivity.removeItemFromCart(position);
                 //if (bundle.get("type").equals("ItemView")) {
 
                     /*
@@ -89,8 +93,10 @@ public class ItemView extends android.support.v4.app.Fragment {
                     }*/
                 //}
                 if (bundle.get("type").equals("RouteView")) {
-                    removeThis();
+                    new MyDialogFragment().show(getActivity().getFragmentManager(), "MyDialog");
+
                 } else {
+                    MiddleManMainActivity.removeItemFromCart(position);
                     removeFromCartButt.setVisibility(View.INVISIBLE);
                     addItemToCartButt.setVisibility(View.VISIBLE);
                 }
@@ -138,6 +144,42 @@ public class ItemView extends android.support.v4.app.Fragment {
                 return true;
         }
         return false;
+    }
+
+    protected void popThisStack(){
+        getFragmentManager().popBackStack();
+    }
+
+    // From http://stackoverflow.com/questions/12912181/simplest-yes-no-dialog-fragment
+    class  MyDialogFragment extends DialogFragment{
+        public MyDialogFragment() {
+        }
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+            alertDialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialogBuilder.setTitle("Remove this item from cart?");
+            alertDialogBuilder.setMessage("Are you sure you want to remove this item from the cart?");
+            //null should be your on click listener
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ((MyDialogFragment)getFragmentManager().findFragmentByTag("MyDialog")).getDialog().dismiss();
+                    MiddleManMainActivity.removeItemFromCart(position);
+                    popThisStack();
+                    //finish();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ((MyDialogFragment)getFragmentManager().findFragmentByTag("MyDialog")).getDialog().dismiss();
+                }
+            });
+
+
+            return alertDialogBuilder.create();
+        }
     }
 
 }
