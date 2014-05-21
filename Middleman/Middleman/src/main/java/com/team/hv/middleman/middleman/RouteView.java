@@ -1,6 +1,7 @@
 package com.team.hv.middleman.middleman;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,8 @@ public class RouteView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.route_view, container, false);
         cartItems = MiddleManMainActivity.itemsCart;
+        totalCost = 0;
+        totalProfit = 0;
         for(int i = 0; i < cartItems.size(); i++){
             totalCost += cartItems.get(i).price;
             totalProfit += cartItems.get(i).expectedProfit;
@@ -99,6 +102,13 @@ public class RouteView extends Fragment {
         cartListViewAdapter = new ArrayAdapter<CraigslistItem>(getActivity(), android.R.layout.simple_list_item_1, cartItems);
         cartListView.setAdapter(cartListViewAdapter);
         Log.v("cartListViewAdapter", "" + cartListViewAdapter.getCount());
+
+        Log.v("cartListView.getChildCount()", "" + cartListView.getChildCount());
+        for (int i=0; i<cartListView.getChildCount();i++){
+            TextView thisItem = (TextView)cartListView.getChildAt(i);
+            thisItem.setTextColor(Color.WHITE);
+            Log.v("color", "Changing to WHITE");
+        }
 
         if (cartListViewAdapter.getCount()==0){
             Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_LONG).show();

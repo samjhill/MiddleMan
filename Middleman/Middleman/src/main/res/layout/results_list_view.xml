@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp"
+    android:padding="2dp"
     android:background="@color/background"
     android:id="@+id/tableLayout"
     android:orientation="vertical">
@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Item: "
+            android:text="@string/item_label_text"
             android:id="@+id/textView"
             android:textColor="@color/white"
             android:padding="10dp"
@@ -27,7 +27,10 @@
             android:id="@+id/itemEditText"
             android:textColor="@color/white"
             android:padding="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingRight="5dp"
+            android:layout_marginRight="10dp"
+            android:inputType="text" />
     </TableRow>
 
     <TableRow
@@ -37,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location: "
+            android:text="@string/location_label_text"
             android:id="@+id/textView2"
             android:textColor="@color/white"
             android:padding="10dp"
@@ -49,16 +52,19 @@
             android:id="@+id/locationEditText"
             android:textColor="@color/white"
             android:padding="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginRight="10dp"
+            android:inputType="text" />
     </TableRow>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search for Results"
+        android:text="@string/search_button_text"
         android:id="@+id/searchButton"
         android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
         android:textSize="20sp" />
 
     <TableRow
@@ -77,4 +83,5 @@
         android:layout_height="match_parent"
         android:id="@+id/selectedItemsListView"
         android:headerDividersEnabled="false" />
+
 </LinearLayout>

@@ -3,19 +3,13 @@
 <TableLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp"
+    android:padding="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:clickable="true"
+    style="@style/WhiteTextTheme">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="258dp"
-        android:id="@+id/cartItemsListView"
-        android:textFilterEnabled="false">
-
-    </ListView>
-
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="30dp"
@@ -28,7 +22,7 @@
             android:id="@+id/routeSummaryTextView"/>
     </TableRow>
 
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
             android:text="Cost upfront:"
             android:textColor="@color/white"
@@ -43,7 +37,7 @@
             android:textSize="17sp"
             android:id="@+id/costUpfrontTextview"/>
     </TableRow>
-    <TableRow>
+    <TableRow android:gravity="center_horizontal">
         <TextView
             android:text="Estimated profit:"
             android:textColor="@color/white"
@@ -59,6 +53,17 @@
             android:id="@+id/estimatedProfitTextView"/>
 
     </TableRow>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cartItemsListView"
+        android:textFilterEnabled="false"
+        style="@style/WhiteTextTheme"
+        android:background="#ffffff"
+        android:layout_marginTop="20dp">
+
+    </ListView>
 
 
     <!-- TODO: open up a map object on click, all this fragment displays -->
