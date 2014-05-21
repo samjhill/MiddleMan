@@ -120,15 +120,20 @@ public class RouteView extends Fragment {
 
     }
 
+    protected void setImageMap(Bitmap bitMap){
+        mapImageView.setImageBitmap(bitMap);
+    }
+
     public class MapGenerator extends AsyncTask<Object, Integer, Boolean> {
         private ArrayList<CraigslistItem> items;
-        private ImageView map;
+        private ImageView mappy;
 
         @Override
         protected Boolean doInBackground(Object...search) {
 
             items = (ArrayList<CraigslistItem>)search[0];
-            map = (ImageView)search[1];
+            Log.v("items",""+items.size());
+            mappy = (ImageView)search[1];
 
             String query = "markers=color:blue";
             String center = items.get(0).location;
@@ -155,7 +160,7 @@ public class RouteView extends Fragment {
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
                 Log.e("Bitmap", "returned");
-                mapImageView.setImageBitmap(myBitmap);
+                setImageMap(myBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("Exception", e.getMessage());
