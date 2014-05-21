@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -62,7 +63,8 @@ public class RouteView extends Fragment {
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
-        generateMap(cartItems);
+        MapGenerator mapGen = new MapGenerator(cartItems);
+        mapGen.doInBackground();
 
 
         cartListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -117,38 +119,57 @@ public class RouteView extends Fragment {
 
     }
 
-    public void generateMap(ArrayList<CraigslistItem> items){
-        String query = "markers=color:blue";
-        String center = items.get(0).location;
-        for(int i = 0; i < items.size(); i++){
-            query += "|" + items.get(i).location;
-        }
-        try{
-            center = URLEncoder.encode(center, "UTF-8");
-            query = URLEncoder.encode(query, "UTF-8");
-        }
-        catch(Exception e){
-            Log.e("Exception", e.getMessage());
-        }
-        Log.e("Url", "https://maps.googleapis.com/maps/api/staticmap?center=" +  center + "&zoom=12&size=350x300&" + query);
-        mapImageView.setImageBitmap(getBitmapFromURL("https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300&" + query));
-    }
+    public class MapGenerator extends AsyncTask<Object, Integer, Boolean> {
+        private ArrayList<CraigslistItem> items;
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src",src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
+        public MapGenerator(ArrayList<CraigslistItem> items){
+            this.items = items;
+        }
+
+        @Override
+        protected Boolean doInBackground(Object...search) {
+            String query = "markers=color:blue";
+            String center = items.get(0).location;
+            for(int i = 0; i < items.size(); i++){
+                query += "|" + items.get(i).location;
+            }
+            try{
+                center = URLEncoder.encode(center, "UTF-8");
+                query = URLEncoder.encode(query, "UTF-8");
+            }
+            catch(Exception e){
+                Log.e("Exception", e.getMessage());
+            }
+
+
+            String src = "https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300&" + query;
+            Log.e("Url", src);
+            try {
+                Log.e("src", src);
+                URL url = new URL(src);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                Log.e("Bitmap", "returned");
+                mapImageView.setImageBitmap(myBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Exception", e.getMessage());
+                return null;
+            }
+
+            return true;
+        }
+
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            Log.e("Finished", "url executed");
         }
     }
     /*
