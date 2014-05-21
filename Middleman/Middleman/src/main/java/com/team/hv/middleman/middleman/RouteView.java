@@ -63,8 +63,9 @@ public class RouteView extends Fragment {
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
-        MapGenerator mapGen = new MapGenerator(cartItems);
-        mapGen.doInBackground();
+        MapGenerator mapGen = new MapGenerator();
+        Object[] params = {cartItems, mapImageView};
+        mapGen.execute(params);
 
 
         cartListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -121,13 +122,14 @@ public class RouteView extends Fragment {
 
     public class MapGenerator extends AsyncTask<Object, Integer, Boolean> {
         private ArrayList<CraigslistItem> items;
-
-        public MapGenerator(ArrayList<CraigslistItem> items){
-            this.items = items;
-        }
+        private ImageView map;
 
         @Override
         protected Boolean doInBackground(Object...search) {
+
+            items = (ArrayList<CraigslistItem>)search[0];
+            map = (ImageView)search[1];
+
             String query = "markers=color:blue";
             String center = items.get(0).location;
             for(int i = 0; i < items.size(); i++){
