@@ -97,7 +97,7 @@ public class ItemView extends android.support.v4.app.Fragment {
 
                 } else {
                     MiddleManMainActivity.removeItemFromCart(position);
-                    removeFromCartButt.setVisibility(View.INVISIBLE);
+                    removeFromCartButt.setVisibility(View.GONE);
                     addItemToCartButt.setVisibility(View.VISIBLE);
                 }
             }
@@ -108,14 +108,15 @@ public class ItemView extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 MiddleManMainActivity.addItemToCart(position);
                 removeFromCartButt.setVisibility(View.VISIBLE);
-                addItemToCartButt.setVisibility(View.INVISIBLE);
+                addItemToCartButt.setVisibility(View.GONE);
+                popThisStack();
             }
         });
 
         if (bundle.get("type").equals("RouteView") || isInCart((String)bundle.get("itemTitle"))){
-            view.findViewById(R.id.addToCartButton).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.addToCartButton).setVisibility(View.GONE);
         } else {
-            view.findViewById(R.id.removeFromCartButton).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.removeFromCartButton).setVisibility(View.GONE);
         }
 
         return view;

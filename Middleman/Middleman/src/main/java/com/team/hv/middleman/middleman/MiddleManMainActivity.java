@@ -210,7 +210,13 @@ public class MiddleManMainActivity extends FragmentActivity {
     }
 
     public static void removeItemFromCart(int index){
-        itemsCart.remove(index);
+        CraigslistItem itemToSearch = craigsItems.get(index);
+        for (int i = 0; i<itemsCart.size(); i++){
+            if (itemToSearch.itemTitle.equals(itemsCart.get(i).itemTitle)){
+                itemsCart.remove(i);
+                break;
+            }
+        }
     }
 
     public static boolean addItemToCart(int index){
