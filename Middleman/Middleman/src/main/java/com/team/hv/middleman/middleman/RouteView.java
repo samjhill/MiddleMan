@@ -1,6 +1,8 @@
 package com.team.hv.middleman.middleman;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,12 +14,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -28,6 +35,7 @@ import java.util.Locale;
 public class RouteView extends Fragment {
     ArrayList<CraigslistItem> cartItems;
     ListView cartListView;
+    ImageView mapImageView;
     ArrayAdapter<CraigslistItem> cartListViewAdapter;
     private double totalCost = 0;
     private double totalProfit = 0;
@@ -49,10 +57,11 @@ public class RouteView extends Fragment {
         totalCostTextView.setText(n.format(totalCost) + "");
         TextView totalProfitTextView = (TextView) view.findViewById(R.id.estimatedProfitTextView);
         totalProfitTextView.setText(n.format(totalProfit) + "");
+        ImageView mapImageView = (ImageView) view.findViewById(R.id.mapImageView);
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
-
+        generateMap(cartItems);
 
 
         cartListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,6 +114,33 @@ public class RouteView extends Fragment {
         }
 
 
+    }
+
+    public void generateMap(ArrayList<CraigslistItem> items){
+        String query = "&markers=color:blue";
+        String center = items.get(0).location;
+        for(int i = 0; i < items.size(); i++){
+            query += "%7C" + items.get(i).location;
+        }
+        mapImageView.setImageBitmap(getBitmapFromURL("https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300" + query));
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            Log.e("src",src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap","returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception",e.getMessage());
+            return null;
+        }
     }
     /*
     private int position;
