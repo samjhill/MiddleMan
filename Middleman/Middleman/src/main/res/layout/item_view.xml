@@ -197,16 +197,20 @@
         android:layout_margin="10dp">
 
         <ImageButton
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/removeFromCartButton"
-            android:src="@drawable/ic_cancel" />
+            android:src="@drawable/ic_cancel"
+            android:layout_marginRight="80dp" />
 
         <ImageButton
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addToCartButton"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_add"
+            android:layout_marginLeft="40dp" />
 
     </TableRow>
 
