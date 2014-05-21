@@ -46,9 +46,9 @@ public class RouteView extends Fragment {
         }
         NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
         TextView totalCostTextView = (TextView) view.findViewById(R.id.costUpfrontTextview);
-        totalCostTextView.setText("$" + n.format(totalCost) + "");
+        totalCostTextView.setText(n.format(totalCost) + "");
         TextView totalProfitTextView = (TextView) view.findViewById(R.id.estimatedProfitTextView);
-        totalProfitTextView.setText("$" + n.format(totalProfit) + "");
+        totalProfitTextView.setText(n.format(totalProfit) + "");
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
