@@ -89,7 +89,7 @@ public class ItemView extends android.support.v4.app.Fragment {
                     }*/
                 //}
                 if (bundle.get("type").equals("RouteView")) {
-                    removeThis();
+                    getFragmentManager().popBackStack();
                 } else {
                     removeFromCartButt.setVisibility(View.INVISIBLE);
                     addItemToCartButt.setVisibility(View.VISIBLE);
