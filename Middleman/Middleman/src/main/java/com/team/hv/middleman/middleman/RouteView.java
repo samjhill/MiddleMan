@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -122,6 +123,14 @@ public class RouteView extends Fragment {
         for(int i = 0; i < items.size(); i++){
             query += "%7C" + items.get(i).location;
         }
+        try{
+            center = URLEncoder.encode(center, "UTF-8");
+            query = URLEncoder.encode(query, "UTF-8");
+        }
+        catch(Exception e){
+            Log.e("Exception", e.getMessage());
+        }
+        Log.e("Url", "https://maps.googleapis.com/maps/api/staticmap?center=" +  center + "&zoom=12&size=350x300" + query);
         mapImageView.setImageBitmap(getBitmapFromURL("https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300" + query));
     }
 
