@@ -118,10 +118,10 @@ public class RouteView extends Fragment {
     }
 
     public void generateMap(ArrayList<CraigslistItem> items){
-        String query = "&markers=color:blue";
+        String query = "markers=color:blue";
         String center = items.get(0).location;
         for(int i = 0; i < items.size(); i++){
-            query += "%7C" + items.get(i).location;
+            query += "|" + items.get(i).location;
         }
         try{
             center = URLEncoder.encode(center, "UTF-8");
@@ -130,8 +130,8 @@ public class RouteView extends Fragment {
         catch(Exception e){
             Log.e("Exception", e.getMessage());
         }
-        Log.e("Url", "https://maps.googleapis.com/maps/api/staticmap?center=" +  center + "&zoom=12&size=350x300" + query);
-        mapImageView.setImageBitmap(getBitmapFromURL("https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300" + query));
+        Log.e("Url", "https://maps.googleapis.com/maps/api/staticmap?center=" +  center + "&zoom=12&size=350x300&" + query);
+        mapImageView.setImageBitmap(getBitmapFromURL("https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300&" + query));
     }
 
     public static Bitmap getBitmapFromURL(String src) {
