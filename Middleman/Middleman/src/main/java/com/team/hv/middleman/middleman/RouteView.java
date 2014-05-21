@@ -40,6 +40,15 @@ public class RouteView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.route_view, container, false);
         cartItems = MiddleManMainActivity.itemsCart;
+        for(int i = 0; i < cartItems.size(); i++){
+            totalCost += cartItems.get(i).price;
+            totalProfit += cartItems.get(i).expectedProfit;
+        }
+        NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
+        TextView totalCostTextView = (TextView) view.findViewById(R.id.costUpfrontTextview);
+        totalCostTextView.setText("$" + n.format(totalCost) + "");
+        TextView totalProfitTextView = (TextView) view.findViewById(R.id.estimatedProfitTextView);
+        totalProfitTextView.setText("$" + n.format(totalProfit) + "");
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
@@ -68,10 +77,8 @@ public class RouteView extends Fragment {
                 bundle.putDouble("average", thisItem.average);
                 Log.v("itemTitle", "" + thisItem.average);
                 bundle.putDouble("profit", thisItem.expectedProfit);
-                totalProfit += thisItem.expectedProfit;
                 Log.v("itemTitle", "" + thisItem.expectedProfit);
                 bundle.putDouble("price", thisItem.price);
-                totalCost += thisItem.price;
                 Log.v("itemTitle", "" + thisItem.price);
                 bundle.putInt("index", position);
                 bundle.putString("type","RouteView");
@@ -92,10 +99,7 @@ public class RouteView extends Fragment {
         cartListViewAdapter = new ArrayAdapter<CraigslistItem>(getActivity(), android.R.layout.simple_list_item_1, cartItems);
         cartListView.setAdapter(cartListViewAdapter);
         Log.v("cartListViewAdapter", "" + cartListViewAdapter.getCount());
-        //TextView costUpfrontTextView = (TextView) cartListView.findViewById(R.id.costUpfrontTextview);
-        //TextView estimatedProfitTextView = (TextView) cartListView.findViewById(R.id.estimatedProfitTextView);
-        //costUpfrontTextView.setText("$" + totalCost);
-        //estimatedProfitTextView.setText("$" + totalProfit);
+
         if (cartListViewAdapter.getCount()==0){
             Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_LONG).show();
         }
