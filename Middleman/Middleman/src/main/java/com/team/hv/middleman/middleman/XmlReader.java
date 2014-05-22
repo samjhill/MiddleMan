@@ -2,6 +2,8 @@ package com.team.hv.middleman.middleman;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import java.io.Serializable;
 import java.net.URL;
 
 import org.w3c.dom.Document;
@@ -29,7 +31,7 @@ class Product
     public double price;
 }
 
-class CraigslistItem implements Comparable<CraigslistItem> {
+class CraigslistItem implements Comparable<CraigslistItem>, Serializable {
     public String itemTitle;
     public String link;
     public Double price;
