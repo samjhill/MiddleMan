@@ -196,13 +196,17 @@ public class MiddleManMainActivity extends FragmentActivity {
     }
 
     // remove the indicated item from the cart
-    public static void removeItemFromCart(int index){
-        CraigslistItem itemToSearch = craigsItems.get(index);
-        for (int i = 0; i<itemsCart.size(); i++){
-            if (itemToSearch.itemTitle.equals(itemsCart.get(i).itemTitle)){
-                itemsCart.remove(i);
-                break;
+    public static void removeItemFromCart(int index, boolean calledFromRouteView) {
+        if (!calledFromRouteView){
+            CraigslistItem itemToSearch = craigsItems.get(index);
+            for (int i = 0; i < itemsCart.size(); i++) {
+                if (itemToSearch.itemTitle.equals(itemsCart.get(i).itemTitle)) {
+                    itemsCart.remove(i);
+                    break;
+                }
             }
+        } else {
+            itemsCart.remove(index);
         }
     }
 
@@ -219,6 +223,7 @@ public class MiddleManMainActivity extends FragmentActivity {
     //onPause, save the cart
     @Override
     protected void onPause(){
+        super.onPause();
         Bundle saveBundle = new Bundle();
         saveBundle.putSerializable("cart",new SaveCartItem(itemsCart));
         onSaveInstanceState(saveBundle);

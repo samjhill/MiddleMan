@@ -85,20 +85,6 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
 
-    <ImageView
-        android:id="@+id/itemImageViewHolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxWidth="370dp"
-        android:maxHeight="400dp"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal"/>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
-
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -161,11 +147,6 @@
 
     </TableRow>
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
-
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -190,6 +171,11 @@
 
     </TableRow>
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -202,7 +188,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/removeFromCartButton"
             android:src="@drawable/ic_cancel"
-            android:layout_marginRight="80dp" />
+            android:layout_marginRight="80dp"
+            android:contentDescription="@string/delete_from_cart" />
 
         <ImageButton
             android:background="@null"
@@ -210,7 +197,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/addToCartButton"
             android:src="@drawable/ic_add"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="40dp"
+            android:contentDescription="@string/add_button_to_cart" />
 
     </TableRow>
 

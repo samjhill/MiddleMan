@@ -39,8 +39,8 @@ public class RouteView extends Fragment {
     ListView cartListView;
     ImageView mapImageView;
     ArrayAdapter<CraigslistItem> cartListViewAdapter;
-    private double totalCost = 0;
-    private double totalProfit = 0;
+    private double totalCost;
+    private double totalProfit;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,22 +50,21 @@ public class RouteView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.route_view, container, false);
         cartItems = MiddleManMainActivity.itemsCart;
+        totalCost = 0;
+        totalProfit = 0;
         for(int i = 0; i < cartItems.size(); i++){
             totalCost += cartItems.get(i).price;
             totalProfit += cartItems.get(i).expectedProfit;
         }
         NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
         TextView totalCostTextView = (TextView) view.findViewById(R.id.costUpfrontTextview);
-        totalCostTextView.setText("Upfront cost: " + n.format(totalCost));
+        totalCostTextView.setText(n.format(totalCost) + "");
         TextView totalProfitTextView = (TextView) view.findViewById(R.id.estimatedProfitTextView);
-        totalProfitTextView.setText("Total profit: " + n.format(totalProfit));
+        totalProfitTextView.setText(n.format(totalProfit) + "");
         ImageView mapImageView = (ImageView) view.findViewById(R.id.mapImageView);
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
-        MapGenerator mapGen = new MapGenerator();
-        Object[] params = {cartItems, mapImageView};
-        mapGen.execute(params);
 
 
         cartListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,133 +118,4 @@ public class RouteView extends Fragment {
 
 
     }
-
-    protected void setImageMap(Bitmap bitMap){
-        mapImageView.setImageBitmap(bitMap);
-    }
-
-    public class MapGenerator extends AsyncTask<Object, Integer, Boolean> {
-        private ArrayList<CraigslistItem> items;
-        private ImageView mappy;
-
-        @Override
-        protected Boolean doInBackground(Object...search) {
-
-            items = (ArrayList<CraigslistItem>)search[0];
-            Log.v("items",""+items.size());
-            mappy = (ImageView)search[1];
-
-            String query = "markers=color:blue";
-            String center = items.get(0).location;
-            for(int i = 0; i < items.size(); i++){
-                query += "|" + items.get(i).location;
-            }
-            try{
-                center = URLEncoder.encode(center, "UTF-8");
-                query = URLEncoder.encode(query, "UTF-8");
-            }
-            catch(Exception e){
-                Log.e("Exception", e.getMessage());
-            }
-
-
-            String src = "https://maps.googleapis.com/maps/api/staticmap?center=" + center + "&zoom=12&size=350x300&" + query;
-            Log.e("Url", src);
-            try {
-                Log.e("src", src);
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                Log.e("Bitmap", "returned");
-                setImageMap(myBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("Exception", e.getMessage());
-                return null;
-            }
-
-            return true;
-        }
-
-        protected void onPreExecute() {
-
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            Log.e("Finished", "url executed");
-        }
-    }
-    /*
-    private int position;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-    }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.route_view, container, false);
-        final Bundle bundle = getArguments();
-        position = (Integer)bundle.get("index");
-
-        TextView titleView = (TextView)view.findViewById(R.id.itemNameTextView);
-        titleView.setText((String)bundle.get("itemTitle"));
-
-        TextView descView = (TextView)view.findViewById(R.id.itemDescTextView);
-        descView.setText((String)bundle.get("description"));
-
-        TextView locationView = (TextView)view.findViewById(R.id.itemLocationTextView);
-        locationView.setText((String)bundle.get("location"));
-
-        //TextView linkView = (TextView)view.findViewById(R.id.itemNameTextView);
-        //linkView.setText((String)bundle.get("link"));
-
-        NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
-
-        TextView priceView = (TextView)view.findViewById(R.id.itemOfferedPriceTextView);
-        priceView.setText(n.format(bundle.get("price")));
-
-        TextView avgView = (TextView)view.findViewById(R.id.itemAveragePriceTextView);
-        avgView.setText(n.format(bundle.get("average")));
-
-        TextView profitView = (TextView)view.findViewById(R.id.itemExpectedProfitTextView);
-        profitView.setText(n.format(bundle.get("profit")));
-
-        cartItems = MiddleManMainActivity.itemsCart;
-
-
-        Button listingButt = (Button)view.findViewById(R.id.viewListingButton);
-        listingButt.setText("Add to Cart");
-        listingButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showWebsiteInDefaultBrowser((String)bundle.get("link"));
-            }
-        });
-
-        ImageButton removeFromCart = (ImageButton)view.findViewById(R.id.removeOrAddToCartButton);
-        removeFromCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishActivityAndRemoveThisItemFromCart();
-            }
-        });
-
-        return view;
-    }
-
-    private void finishActivityAndRemoveThisItemFromCart() {
-        MiddleManMainActivity.removeItemFromCart(position);
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
-
-    private void showWebsiteInDefaultBrowser(String link){
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-        startActivity(browserIntent);
-    }
-    */
 }

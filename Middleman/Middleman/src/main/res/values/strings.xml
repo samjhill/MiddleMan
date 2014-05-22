@@ -28,6 +28,8 @@
     <string name="cost_upfront_label_text">Cost upfront:</string>
     <string name="extimated_profit_label_text">Estimated profit:</string>
     <string name="route_summary">Route Summary</string>
+    <string name="delete_from_cart">delete from cart</string>
+    <string name="add_button_to_cart">add to cart</string>
 
 
 </resources>

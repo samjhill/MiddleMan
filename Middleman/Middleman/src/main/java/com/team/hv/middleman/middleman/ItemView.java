@@ -83,7 +83,7 @@ public class ItemView extends android.support.v4.app.Fragment {
                     new MyDialogFragment().show(getActivity().getFragmentManager(), "MyDialog");
 
                 } else {
-                    MiddleManMainActivity.removeItemFromCart(position);
+                    MiddleManMainActivity.removeItemFromCart(position, false);
                     removeFromCartButt.setVisibility(View.GONE);
                     addItemToCartButt.setVisibility(View.VISIBLE);
                 }
@@ -147,8 +147,8 @@ public class ItemView extends android.support.v4.app.Fragment {
             alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    MiddleManMainActivity.removeItemFromCart(position, true);
                     ((MyDialogFragment)getFragmentManager().findFragmentByTag("MyDialog")).getDialog().dismiss();
-                    MiddleManMainActivity.removeItemFromCart(position);
                     popThisStack();
                 }
             });
