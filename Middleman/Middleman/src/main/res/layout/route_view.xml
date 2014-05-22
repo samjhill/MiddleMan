@@ -22,7 +22,8 @@
             android:id="@+id/routeSummaryTextView"/>
     </TableRow>
 
-    <TableRow android:layout_width="wrap_content">
+    <TableRow android:layout_width="wrap_content"
+        android:gravity="center_horizontal">
 
         <TextView
             android:text="@string/placeholder_text"
@@ -41,8 +42,7 @@
             android:id="@+id/estimatedProfitTextView"
             android:layout_width="wrap_content"
             android:layout_span="2"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="30dp" />
+            android:layout_gravity="center_horizontal" />
 
     </TableRow>
 
