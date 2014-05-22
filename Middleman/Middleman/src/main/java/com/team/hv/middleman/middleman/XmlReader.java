@@ -1,32 +1,18 @@
 package com.team.hv.middleman.middleman;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import java.net.URL;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 import org.w3c.dom.Element;
 
-import java.io.Console;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,11 +27,6 @@ class Product
 {
     //public String title;
     public double price;
-
-    public void Product(double thisPrice){
-        price = thisPrice;
-    }
-
 }
 
 class CraigslistItem implements Comparable<CraigslistItem> {
@@ -79,6 +60,9 @@ class CraigslistItem implements Comparable<CraigslistItem> {
 //"http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&
 // keywords=ITEMNAMEHERE"
 public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
+
+    // this app's key for accessing the craigslist rss feed
+    private static final String craigsKey = "rit483d65-f477-4935-ac6d-35e12287a5b";
 
     private static ArrayList<Product> products;
     private static double eBayAvgPrice;
@@ -118,7 +102,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
         Log.v("Stuff","Right before try/catch");
         try {
-            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME=rit483d65-f477-4935-ac6d-35e12287a5b&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+URLEncoder.encode(itemName, "UTF-8"));
+            URL url = new URL("http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SECURITY-APPNAME="+craigsKey+"&RESPONSE-DATA-FORMAT=XML&REST-PAYLOAD&keywords="+URLEncoder.encode(itemName, "UTF-8"));
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(url.openStream()));
@@ -167,81 +151,16 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                     products.add(product);
                     Log.v("Product", "Added: " + product.price);
                 }
-            } else {
-                //TODO let user know nothing was returned
             }
-            /*
-            name = new TextView[nodeList.getLength()];
-            website = new TextView[nodeList.getLength()];
-            category = new TextView[nodeList.getLength()];
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
-                //name[i] = new TextView(this);
-                //website[i] = new TextView(this);
-                //category[i] = new TextView(this);
-                Element fstElmnt = (Element) node;
-                NodeList nameList = fstElmnt.getElementsByTagName("name");
-                Element nameElement = (Element) nameList.item(0);
-                nameList = nameElement.getChildNodes();
-                name[i].setText("Name = "
-                        + ((Node) nameList.item(0)).getNodeValue());
-                NodeList websiteList = fstElmnt.getElementsByTagName("website");
-                Element websiteElement = (Element) websiteList.item(0);
-                websiteList = websiteElement.getChildNodes();
-                website[i].setText("Website = "
-                        + ((Node) websiteList.item(0)).getNodeValue());
-                category[i].setText("Website Category = "
-                        + websiteElement.getAttribute("category"));
-
-            }
-            */
         } catch (Exception e) {
             System.out.println("XML Pasing Excpetion = " + e);
-
         }
-        /*
-        ArrayList<Product> products = null;
-        int eventType = parser.getEventType();
-        Product currentProduct = null;
-
-        while (eventType != XmlPullParser.END_DOCUMENT){
-            String name = null;
-            switch (eventType){
-                case XmlPullParser.START_DOCUMENT:
-                    products = new ArrayList();
-                    break;
-                case XmlPullParser.START_TAG:
-                    name = parser.getName();
-                    if (name.equals("item")){
-                        currentProduct = new Product();
-                    } else if (currentProduct != null){
-                        if (name.equals("title")){
-                            currentProduct.title = parser.nextText();
-                        } else if (name.equals("currentPrice")){
-                            currentProduct.price = parser.nextText();
-                        }
-                    }
-                    break;
-                case XmlPullParser.END_TAG:
-                    name = parser.getName();
-                    if (name.equalsIgnoreCase("item") && currentProduct != null){
-                        products.add(currentProduct);
-                    }
-            }
-            eventType = parser.next();
-        }
-        */
         printProducts();
     }
 
     private static void printProducts()
     {
         products = stdDev(products);
-        //if (MiddleManMainActivity.ebayItems.size()>0){
-        //    MiddleManMainActivity.ebayItems.clear();
-        //}
-        //MiddleManMainActivity.ebayItems.addAll(products);
-        MiddleManMainActivity.ebayComplete = true;
 
         Log.v("Count Attribute", ""+products.size());
 
@@ -258,6 +177,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         Log.v("Total:", products.size() + " Products");
     }
 
+    // apply a standard deviation calculation to the combined prices of the passed in products, and remove the lower tail
     public static ArrayList<Product> stdDev(ArrayList<Product> products){
         int numItems = products.size();
         double totalPrice = 0;
@@ -338,50 +258,37 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
             totalPrice += currentPrice;
         }
 
-
-
-
-
+        // LOg prices and number of items
         Log.v("MiddleManMainActivity","Highest price: " + maxPrice);
         Log.v("MiddleManMainActivity", "Average price: " + avgPrice);
         Log.v("MiddleManMainActivity","Lowest price: " + minPrice);
-
         Log.v("MiddleManMainActivity","Number of items: " + (numItems));
+        Log.v("","High: "+maxPrice+" - Avg: "+avgPrice+" - Low: "+minPrice +" - Count: "+products.size());
 
         eBayAvgPrice = avgPrice;
+
         MiddleManMainActivity.ebayHighPrice = maxPrice;
         MiddleManMainActivity.ebayAvg = avgPrice;
         MiddleManMainActivity.ebayLowPrice = minPrice;
-        Log.v("","High: "+maxPrice+" - Avg: "+avgPrice+" - Low: "+minPrice +" - Count: "+products.size());
-
-
 
         return products;
 
     }
 
-    public static ArrayList<Product> getProducts() {
-        return products;
-    }
-
+    // search for items from craigslist, using an item or caterory to search and a city
     public void getItemsFromCragislist(String city, String itemToSearch) {
         cityName = city.toLowerCase();
-        //replace all white space
-        //cityName = cityName.replaceAll("\\s","");
         String item = itemToSearch;
 
         try {
             // http://cityname.craigslist.org/search/?areaID=126&catAbb=sss&query=itemtosearch&sort=rel&format=rss
             URL url = new URL("http://" + cityName.replaceAll("\\s","") + ".craigslist.org/search/?areaID=126&catAbb=sss&query=" + URLEncoder.encode(item,"UTF-8") + "&sort=rel&format=rss");
-            URL shortUrlForWebBrowser = new URL("http://" + cityName + ".craigslist.org/search/?areaID=126&catAbb=sss&query=" + item + "&sort=rel");
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(new InputSource(url.openStream()));
             doc.getDocumentElement().normalize();
 
-            //parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            //parser.setInput(in_s, null);
-
+            //parse the resultant xml document
             parseCraigsXML(doc);
 
         } catch (XmlPullParserException e) {
@@ -389,7 +296,6 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
             e.printStackTrace();
             Log.v("XmlParser", "try/catch fucked up");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
@@ -398,12 +304,11 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         }
     }
 
+    //parse the Craigslist XML
     private void parseCraigsXML(Document doc) throws XmlPullParserException,IOException
     {
         try {
-            //Log.v("Count Attribute", doc.getElementsByTagName("searchResult").item(0).getAttributes().getNamedItem("count").getNodeValue());
             NodeList nodeListOfItems = doc.getElementsByTagName("item");
-
 
             // If count of returned items is not 0
             if (nodeListOfItems.getLength()>0){
@@ -417,6 +322,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                     String location;
 
                     // cast Node as Element
+                    // get different values from ever 'item' node's tag name
                     Element thisItem = (Element) nodeListOfItems.item(i);
                     Log.v("thisItem", thisItem.getTagName());
                     Element linkNode = (Element)thisItem.getElementsByTagName("link").item(0);
@@ -437,6 +343,7 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
 
 
                     //&#x0024; is unicode for $ (dollar sign)
+                    //title must contain dollar sign, or else we are not interested in it (must be selling, must have a price to compare)
                     if (titleText.contains("&#x0024;")) {
                         title = titleText.substring(0, titleText.indexOf("&#x0024;"));
                         Log.v("Title", titleText);
@@ -457,9 +364,8 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
                     }
                     Log.v("At number",""+i);
                 }
+                // sort the collection
                 Collections.sort(items);
-            } else {
-                //TODO let user know nothing was returned
             }
 
             printItems();
@@ -470,150 +376,17 @@ public class XmlReader extends AsyncTask<Object, Integer, Boolean>{
         }
     }
 
+    // print the outputs and add completed list of craigslist items to the craigsItems ArrayList in MiddleManMainActivity
     public void printItems() {
 
         if (MiddleManMainActivity.craigsItems.size()>0){
             MiddleManMainActivity.craigsItems.clear();
         }
         MiddleManMainActivity.craigsItems.addAll(items);
-        MiddleManMainActivity.clComplete = true;
 
+        //display information on every item
         for (int i=0;i<items.size();i++){
             Log.v("Items Contains: ","title - "+items.get(i).itemTitle+" | link -  "+items.get(i).link +" | price - "+items.get(i).price+" | desc - "+ items.get(i).description +" | location - "+items.get(i).location);
         }
     }
-
-    /*
-    function parseXml(xml) {
-        //console.log(xml);
-        $(xml).find("item").each(function() {
-            var title = $(this).find("title").text();
-            var link = $(this).find("link").text();
-            //parse title down so it's not super long
-            var prettyTitle = title.substr(0, title.indexOf("$"));
-            //parse price out of title
-            var price = title.substr(title.indexOf("$"), title.indexOf(" ") + 1);
-
-
-            var priceInt = parseInt(price.substr(1));
-
-            var items = new Array();
-            //this will get rid of TRADE items
-            if ( priceInt >= 0 ) {
-                generatePost(link, priceInt, prettyTitle);
-                items.push( new Object(link, priceInt, prettyTitle));
-
-            }
-            ////console.log(items);
-            craigslistItems = items;
-            clComplete = true;
-
-        });
-    }
-     */
-    //get user location: http://developer.android.com/training/location/retrieve-current.html#CheckServices
-    /*
-        // Global constants
-    /*
-     * Define a request code to send to Google Play services
-     * This code is returned in Activity.onActivityResult
-
-        private final static int
-                CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-
-        // Define a DialogFragment that displays the error dialog
-        public static class ErrorDialogFragment extends DialogFragment {
-            // Global field to contain the error dialog
-            private Dialog mDialog;
-            // Default constructor. Sets the dialog field to null
-            public ErrorDialogFragment() {
-                super();
-                mDialog = null;
-            }
-            // Set the dialog to display
-            public void setDialog(Dialog dialog) {
-                mDialog = dialog;
-            }
-            // Return a Dialog to the DialogFragment.
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                return mDialog;
-            }
-        }
-
-    /*
-     * Handle results returned to the FragmentActivity
-     * by Google Play services
-
-        //@Override
-        protected void onActivityResult(
-        int requestCode, int resultCode, Intent data) {
-            // Decide what to do based on the original request code
-            switch (requestCode) {
-
-                case CONNECTION_FAILURE_RESOLUTION_REQUEST :
-            /*
-             * If the result code is Activity.RESULT_OK, try
-             * to connect again
-
-                    switch (resultCode) {
-                        case Activity.RESULT_OK :
-                    /*
-                     * Try the request again
-
-
-                            break;
-                    }
-
-            }
-        }
-
-        private boolean servicesConnected() {
-            // Check that Google Play services is available
-            int resultCode =
-                    GooglePlayServicesUtil.
-                            isGooglePlayServicesAvailable(this);
-            // If Google Play services is available
-            if (ConnectionResult.SUCCESS == resultCode) {
-                // In debug mode, log the status
-                Log.d("Location Updates",
-                        "Google Play services is available.");
-                // Continue
-                return true;
-                // Google Play services was not available for some reason
-            } else {
-                // Get the error code
-                int errorCode = connectionResult.getErrorCode();
-                // Get the error dialog from Google Play services
-                Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
-                        errorCode,
-                        this,
-                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
-
-                // If Google Play services can provide an error dialog
-                if (errorDialog != null) {
-                    // Create a new DialogFragment for the error dialog
-                    ErrorDialogFragment errorFragment =
-                            new ErrorDialogFragment();
-                    // Set the dialog in the DialogFragment
-                    errorFragment.setDialog(errorDialog);
-                    // Show the error dialog in the DialogFragment
-                    errorFragment.show(getSupportFragmentManager(),
-                            "Location Updates");
-                }
-            }
-        }
-        */
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.feed, menu);
-        return true;
-    }
-*/
-//apply standard deviation to arrayList<Product>
-//filters out products that are not what we're looking for
-
-
 }

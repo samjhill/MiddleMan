@@ -1,16 +1,12 @@
 package com.team.hv.middleman.middleman;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
  * Created by Ben on 5/19/2014.
+ * A view showing a detailed look at a returned item
  */
 public class ItemView extends android.support.v4.app.Fragment {
     private int position;
@@ -32,9 +28,9 @@ public class ItemView extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         Log.v("Bundle size onCreate",""+getArguments().size());
-        super.onCreate(savedInstanceState);
         Log.v("Bundle size onCreate",""+getArguments().size());
         Log.v("onCreate", "Called");
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -45,6 +41,7 @@ public class ItemView extends android.support.v4.app.Fragment {
         //super.onCreateView(savedInstanceState);
         View view = inflater.inflate(R.layout.item_view, container, false);
 
+        //get information on the item from the args
         position = (Integer)bundle.get("index");
 
         TextView titleView = (TextView)view.findViewById(R.id.itemNameTextView);
@@ -55,9 +52,6 @@ public class ItemView extends android.support.v4.app.Fragment {
 
         TextView locationView = (TextView)view.findViewById(R.id.itemLocationTextView);
         locationView.setText((String)bundle.get("location"));
-
-        //TextView linkView = (TextView)view.findViewById(R.id.itemNameTextView);
-        //linkView.setText((String)bundle.get("link"));
 
         NumberFormat n = NumberFormat.getCurrencyInstance(Locale.US);
 
@@ -85,14 +79,7 @@ public class ItemView extends android.support.v4.app.Fragment {
         removeFromCartButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (bundle.get("type").equals("ItemView")) {
-
-                    /*
-                    if (!MiddleManMainActivity.addItemToCart(position)){
-                        Toast.makeText(getActivity(), "Item already in cart", Toast.LENGTH_LONG).show();
-                    }*/
-                //}
-                if (bundle.get("type").equals("RouteView")) {
+                if (bundle.get("type").equals("RouteView")) {//if accessed from the route view class
                     new MyDialogFragment().show(getActivity().getFragmentManager(), "MyDialog");
 
                 } else {
@@ -122,20 +109,13 @@ public class ItemView extends android.support.v4.app.Fragment {
         return view;
     }
 
+    //open up the passed in uri in the device's default web browser
     private void showWebsiteInDefaultBrowser(String link){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
         startActivity(browserIntent);
     }
 
-    private void removeThis() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
-
-    private void finishActivityAndRemoveThisItemFromCart() {
-        MiddleManMainActivity.removeItemFromCart(position);
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-    }
-
+    //see if this item, represented by the passed in title, is in the cart
     private boolean isInCart (String thisTitle)
     {
         for (CraigslistItem thisItem : MiddleManMainActivity.itemsCart)
@@ -147,11 +127,13 @@ public class ItemView extends android.support.v4.app.Fragment {
         return false;
     }
 
+    //pop the backstack, removing this fragment from view
     protected void popThisStack(){
         getFragmentManager().popBackStack();
     }
 
     // From http://stackoverflow.com/questions/12912181/simplest-yes-no-dialog-fragment
+    //show a confirm/cancel dialog when removing an item from the cart (when viewing this ItemView from the RouteView layout)
     class  MyDialogFragment extends DialogFragment{
         public MyDialogFragment() {
         }
@@ -168,16 +150,15 @@ public class ItemView extends android.support.v4.app.Fragment {
                     ((MyDialogFragment)getFragmentManager().findFragmentByTag("MyDialog")).getDialog().dismiss();
                     MiddleManMainActivity.removeItemFromCart(position);
                     popThisStack();
-                    //finish();
                 }
             });
+
             alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((MyDialogFragment)getFragmentManager().findFragmentByTag("MyDialog")).getDialog().dismiss();
                 }
             });
-
 
             return alertDialogBuilder.create();
         }
