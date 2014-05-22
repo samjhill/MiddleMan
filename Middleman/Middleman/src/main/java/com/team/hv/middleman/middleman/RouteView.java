@@ -63,9 +63,9 @@ public class RouteView extends Fragment {
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
         addCartItemsToListView();
-        MapGenerator mapGen = new MapGenerator();
-        Object[] params = {cartItems, mapImageView};
-        mapGen.execute(params);
+        //MapGenerator mapGen = new MapGenerator();
+        //Object[] params = {cartItems, mapImageView};
+        //mapGen.execute(params);
 
 
         cartListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
