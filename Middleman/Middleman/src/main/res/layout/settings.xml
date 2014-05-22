@@ -99,7 +99,7 @@
                 android:text="@string/Feeds"
                 android:id="@+id/feedsLabelTextView"
                 android:padding="10dp"
-                android:textColor="#8fbfff"
+                android:textColor="@color/light_blue"
                 android:textSize="30dp"
                 android:textIsSelectable="false" />
         </TableRow>
