@@ -58,7 +58,7 @@ public class RouteView extends Fragment {
         TextView totalCostTextView = (TextView) view.findViewById(R.id.costUpfrontTextview);
         totalCostTextView.setText("Upfront cost: " + n.format(totalCost));
         TextView totalProfitTextView = (TextView) view.findViewById(R.id.estimatedProfitTextView);
-        totalProfitTextView.setText("Totla profit: " + n.format(totalProfit));
+        totalProfitTextView.setText("Total profit: " + n.format(totalProfit));
         ImageView mapImageView = (ImageView) view.findViewById(R.id.mapImageView);
 
         cartListView = (ListView)view.findViewById(R.id.cartItemsListView);
