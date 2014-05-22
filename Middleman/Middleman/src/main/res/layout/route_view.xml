@@ -22,41 +22,33 @@
             android:id="@+id/routeSummaryTextView"/>
     </TableRow>
 
-    <TableRow android:gravity="center_horizontal">
-        <TextView
-            android:text="@string/cost_upfront_label_text"
-            android:textColor="@color/white"
-            android:layout_marginRight="5dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_gravity="right"
-            android:id="@+id/costUpfrontLabelTextView"/>
+    <TableRow android:layout_width="wrap_content"
+        android:gravity="center_horizontal">
+
         <TextView
             android:text="@string/placeholder_text"
             android:textColor="@color/white"
             android:textSize="17sp"
-            android:id="@+id/costUpfrontTextview"/>
+            android:id="@+id/costUpfrontTextview"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal" />
     </TableRow>
     <TableRow android:gravity="center_horizontal">
-        <TextView
-            android:text="@string/extimated_profit_label_text"
-            android:textColor="@color/white"
-            android:layout_marginRight="5dp"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:layout_gravity="right"
-            android:id="@+id/estimatedCostLabelTextView"/>
+
         <TextView
             android:text="@string/placeholder_text"
             android:textColor="@color/white"
             android:textSize="17sp"
-            android:id="@+id/estimatedProfitTextView"/>
+            android:id="@+id/estimatedProfitTextView"
+            android:layout_width="wrap_content"
+            android:layout_span="2"
+            android:layout_gravity="center_horizontal" />
 
     </TableRow>
 
     <ListView
         android:layout_width="fill_parent"
-        android:layout_height="267dp"
+        android:layout_height="wrap_content"
         android:id="@+id/cartItemsListView"
         android:textFilterEnabled="false"
         style="@style/WhiteTextTheme"
