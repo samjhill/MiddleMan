@@ -58,7 +58,7 @@ public class MiddleManMainActivity extends FragmentActivity {
         //Log.v("savedINstanceState",""+savedInstanceState.isEmpty());
 
         thisContext = getApplicationContext();
-
+        /*
         if (savedInstanceState != null){ //if bundle contains something, get the cart
             Log.v("Getting saved instance state","gettin it");
             SaveCartItem theCartContainer = (SaveCartItem) savedInstanceState.getSerializable("cart");
@@ -67,6 +67,8 @@ public class MiddleManMainActivity extends FragmentActivity {
             Log.v("NOT NOT NOT","gettin it");
             itemsCart = new ArrayList<CraigslistItem>();
         }
+        */
+        itemsCart = new ArrayList<CraigslistItem>();
 
         selectedItemsListView = (ListView)findViewById(R.id.selectedItemsListView);
         selectedItemsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -220,17 +222,6 @@ public class MiddleManMainActivity extends FragmentActivity {
         } else {
             return false;
         }
-    }
-
-    //onPause, save the cart
-
-    @Override
-    protected void onPause(){
-        Bundle saveBundle = new Bundle();
-        saveBundle.putSerializable("cart",new SaveCartItem(itemsCart));
-        onSaveInstanceState(saveBundle);
-        Log.v("Pausing", "now");
-        super.onPause();
     }
 
     public Context getContext() {
